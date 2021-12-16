@@ -21,9 +21,36 @@
 
       </q-table>
 
-      <br>
+      <template>
+        <div class="q-pa-md q-gutter-sm">
+          <q-btn round icon="add" color="primary" @click="prompt = true" />
 
-      <q-btn padding:15px round color="primary" icon="add" @click="addProduto" />
+            <q-dialog v-model="prompt" persistent>
+              <q-card style="min-width: 350px">
+
+                <q-card-section>
+                  <div class="text-h6">Cadastrar Produto</div>
+                </q-card-section>
+
+                <q-card-section class="q-pt-none">
+                  <q-item-label header>Código do Produto</q-item-label>
+                  <q-input dense v-model="codProduto" autofocus @keyup.enter="prompt = false" />
+                </q-card-section>
+
+                <q-card-section class="q-pt-none">
+                  <q-item-label header>Nome do Produto</q-item-label>
+                  <q-input dense v-model="nomeProduto" autofocus @keyup.enter="prompt = false" />
+                </q-card-section>
+
+                <q-card-actions align="right" class="text-primary">
+                  <q-btn flat label="Cancelar" v-close-popup />
+                  <q-btn flat label="Adicionar Produto" @click="addProduto" v-close-popup/>
+                </q-card-actions>
+
+              </q-card>
+            </q-dialog>
+        </div>
+      </template>
 
     </div>
   </q-page>
@@ -33,6 +60,9 @@
 export default {
   data () {
     return {
+      prompt: false,
+      codProduto: '',
+      nomeProduto: '',
       selected: [],
       filter: '',
       columns: [{
@@ -56,21 +86,13 @@ export default {
         {
           codProduto: '0124',
           nomeProduto: 'Banana'
-        },
-        {
-          codProduto: '4243245',
-          nomeProduto: 'Maça'
-        },
-        {
-          codProduto: '23424',
-          nomeProduto: 'Uva'
         }
       ]
     }
   },
   methods: {
     addProduto () {
-      console.log(this.selected)
+      this.data.push({ codProduto: this.codProduto, nomeProduto: this.nomeProduto })
     }
   }
 }
