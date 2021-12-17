@@ -23,41 +23,24 @@
 
       <template>
         <div class="q-pa-md q-gutter-sm">
-          <q-btn round icon="add" color="primary" @click="prompt = true" />
-
-            <q-dialog v-model="prompt" persistent>
-              <q-card style="min-width: 350px">
-
-                <q-card-section>
-                  <div class="text-h6">Cadastrar Produto</div>
-                </q-card-section>
-
-                <q-card-section class="q-pt-none">
-                  <q-item-label header>Código do Produto</q-item-label>
-                  <q-input dense v-model="codProduto" autofocus @keyup.enter="prompt = false" />
-                </q-card-section>
-
-                <q-card-section class="q-pt-none">
-                  <q-item-label header>Nome do Produto</q-item-label>
-                  <q-input dense v-model="nomeProduto" autofocus @keyup.enter="prompt = false" />
-                </q-card-section>
-
-                <q-card-actions align="right" class="text-primary">
-                  <q-btn flat label="Cancelar" v-close-popup />
-                  <q-btn flat label="Adicionar Produto" @click="addProduto" v-close-popup/>
-                </q-card-actions>
-
-              </q-card>
-            </q-dialog>
+          <q-btn round icon="add" color="primary" @click="abrir()"/>
+          <produtoForm ref="produtoForm"></produtoForm>
         </div>
       </template>
 
     </div>
+    <div>
+      <p>Bem vindo... {{this.nomeUser}}</p>
+    </div>
+
   </q-page>
 </template>
 
 <script>
+import produtoForm from '../components/produtoForm.vue'
+
 export default {
+  components: { produtoForm },
   data () {
     return {
       prompt: false,
@@ -93,6 +76,18 @@ export default {
   methods: {
     addProduto () {
       this.data.push({ codProduto: this.codProduto, nomeProduto: this.nomeProduto })
+      this.codProduto = ''
+      this.nomeProduto = ''
+    },
+    abrir () {
+      this.$refs.produtoForm.abrir()
+    }
+  },
+  computed: {
+    nomeUser: {
+      get () {
+        return this.$store.state.example.name
+      }
     }
   }
 }
