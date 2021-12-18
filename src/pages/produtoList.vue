@@ -3,7 +3,7 @@
     <div class="q-pa-md">
       <q-table
         title="Produtos"
-        :data="data"
+        :data="produtosCadastrados"
         :columns="columns"
         row-key="codProduto"
         selection="multiple"
@@ -29,23 +29,18 @@
       </template>
 
     </div>
-    <div>
-      <p>Bem vindo... {{this.nomeUser}}</p>
-    </div>
-
   </q-page>
 </template>
 
 <script>
 import produtoForm from '../components/produtoForm.vue'
+import { mapState } from 'vuex'
 
 export default {
   components: { produtoForm },
   data () {
     return {
       prompt: false,
-      codProduto: '',
-      nomeProduto: '',
       selected: [],
       filter: '',
       columns: [{
@@ -64,31 +59,16 @@ export default {
         align: 'left',
         sortable: true
       }
-      ],
-      data: [
-        {
-          codProduto: '0124',
-          nomeProduto: 'Banana'
-        }
       ]
     }
   },
   methods: {
-    addProduto () {
-      this.data.push({ codProduto: this.codProduto, nomeProduto: this.nomeProduto })
-      this.codProduto = ''
-      this.nomeProduto = ''
-    },
     abrir () {
       this.$refs.produtoForm.abrir()
     }
   },
   computed: {
-    nomeUser: {
-      get () {
-        return this.$store.state.example.name
-      }
-    }
+    ...mapState('cadastroProdutos', ['produtosCadastrados'])
   }
 }
 </script>

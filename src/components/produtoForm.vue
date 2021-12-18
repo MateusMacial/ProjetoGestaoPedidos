@@ -17,7 +17,9 @@
 
         <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Cancelar" v-close-popup />
-            <q-btn flat label="Adicionar Produto" @click="addProduto" v-close-popup/>
+            <q-btn flat label="Adicionar Produto"
+            @click="addProduto({codProduto, nomeProduto})"
+            v-close-popup/>
         </q-card-actions>
 
         </q-card>
@@ -25,6 +27,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   data () {
     return {
@@ -33,13 +37,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('cadastroProdutos', ['addProduto']),
     abrir () {
       this.$refs.dialog.show()
-    },
-    addProduto () {
-      this.data.push({ codProduto: this.codProduto, nomeProduto: this.nomeProduto })
-      this.codProduto = ''
-      this.nomeProduto = ''
     }
   }
 }
