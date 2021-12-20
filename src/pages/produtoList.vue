@@ -12,8 +12,15 @@
       >
 
       <template v-slot:top>
-        <q-btn color="primary"  label="Editar" v-show="selected.length === 1" @click="abrir(selected[0], true)"/>
-        <q-btn class="q-ml-sm" color="primary"  label="Deletar" v-show="selected.length" @click="deletarProduto(selected)"/>
+        <q-btn color="primary"
+        label="Editar"
+        v-show="selected.length === 1" @click="abrir(selected[0], true)"/>
+
+        <q-btn class="q-ml-sm"
+        color="primary"
+        label="Deletar"
+        v-show="selected.length"
+        @click="deletarProduto(selected)"/>
 
         <q-space />
 
@@ -29,7 +36,9 @@
 
       <template>
         <div class="q-pa-md q-gutter-sm">
-          <q-btn round icon="add" color="primary" @click="abrir({})" v-show="selected.length === 0"/>
+          <q-btn round icon="add" color="primary"
+          @click="abrir({})"
+          v-show="selected.length === 0"/>
           <produtoForm ref="produtoForm"></produtoForm>
         </div>
       </template>

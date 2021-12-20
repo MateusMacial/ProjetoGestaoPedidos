@@ -6,6 +6,13 @@ export function addProduto (state, payload) {
 export function editProduto (state, payload) {
   console.log(state.produtosCadastrados)
   console.log(payload.produto)
+
+  state.produtosCadastrados.forEach(item => {
+    if (item.uid === payload.produto.uid) {
+      item.codProduto = payload.produto.codProduto
+      item.nomeProduto = payload.produto.nomeProduto
+    }
+  })
 }
 export function deletProduto (state, payload) {
   payload.produtos.forEach(item => {
@@ -16,4 +23,5 @@ export function deletProduto (state, payload) {
       state.produtosCadastrados.splice(indexRemover, 1)
     }
   })
+  console.log(state.produtosCadastrados)
 }
