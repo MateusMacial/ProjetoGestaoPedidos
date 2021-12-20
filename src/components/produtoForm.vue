@@ -8,18 +8,19 @@
 
         <div class="row">
           <div class="col-6 q-pa-md">
-              <q-input outlined v-model="codProduto" autofocus label="Código do Produto"/>
+              <q-input outlined v-model="objToEdit.codProduto" autofocus label="Código do Produto"/>
           </div>
           <div class="col-6 q-pa-md">
-              <q-input outlined v-model="nomeProduto" autofocus label="Nome do Produto"/>
+              <q-input outlined v-model="objToEdit.nomeProduto" autofocus label="Nome do Produto"/>
           </div>
         </div>
 
         <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Cancelar" v-close-popup />
-            <q-btn flat label="Adicionar Produto"
-            @click="adicionarProduto({codProduto, nomeProduto})"
-            v-close-popup/>
+
+            <q-btn v-show="!editar" flat label="Adicionar Produto" @click="adicionarProduto(objToEdit)" v-close-popup/>
+
+            <q-btn v-show="editar" flat label="Editar Produto" @click="editarProduto(objToEdit)" v-close-popup/>
         </q-card-actions>
 
         </q-card>
@@ -28,17 +29,20 @@
 
 <script>
 import { mapActions } from 'vuex'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   data () {
     return {
-      codProduto: '',
-      nomeProduto: ''
+      objToEdit: {},
+      editar: false
     }
   },
   methods: {
-    ...mapActions('cadastroProdutos', ['adicionarProduto']),
-    abrir () {
+    ...mapActions('cadastroProdutos', ['adicionarProduto', 'editarProduto']),
+    abrir (obj, editavel) {
+      this.objToEdit = cloneDeep(obj)
+      this.editar = editavel || false
       this.$refs.dialog.show()
     },
     limparCampos () {

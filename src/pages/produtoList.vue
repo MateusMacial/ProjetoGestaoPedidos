@@ -5,14 +5,14 @@
         title="Produtos"
         :data="produtosCadastrados"
         :columns="columns"
-        row-key="codProduto"
+        row-key="uid"
         selection="multiple"
         :selected.sync="selected"
         :filter="filter"
       >
 
       <template v-slot:top>
-        <q-btn color="primary"  label="Editar" v-show="selected.length === 1" @click="editarProduto(selected)"/>
+        <q-btn color="primary"  label="Editar" v-show="selected.length === 1" @click="abrir(selected[0], true)"/>
         <q-btn class="q-ml-sm" color="primary"  label="Deletar" v-show="selected.length" @click="deletarProduto(selected)"/>
 
         <q-space />
@@ -29,7 +29,7 @@
 
       <template>
         <div class="q-pa-md q-gutter-sm">
-          <q-btn round icon="add" color="primary" @click="abrir()"/>
+          <q-btn round icon="add" color="primary" @click="abrir({})" v-show="selected.length === 0"/>
           <produtoForm ref="produtoForm"></produtoForm>
         </div>
       </template>
@@ -69,8 +69,8 @@ export default {
     }
   },
   methods: {
-    abrir () {
-      this.$refs.produtoForm.abrir()
+    abrir (obj, editavel) {
+      this.$refs.produtoForm.abrir(obj, editavel)
     },
     ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto'])
   },
