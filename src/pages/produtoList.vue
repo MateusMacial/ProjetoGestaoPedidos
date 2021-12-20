@@ -11,12 +11,18 @@
         :filter="filter"
       >
 
-      <template v-slot:top-right>
+      <template v-slot:top>
+        <q-btn color="primary"  label="Editar" v-show="selected.length === 1" @click="editarProduto(selected)"/>
+        <q-btn class="q-ml-sm" color="primary"  label="Deletar" v-show="selected.length" @click="deletarProduto(selected)"/>
+
+        <q-space />
+
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
         </q-input>
+
       </template>
 
       </q-table>
@@ -34,7 +40,7 @@
 
 <script>
 import produtoForm from '../components/produtoForm.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: { produtoForm },
@@ -65,7 +71,8 @@ export default {
   methods: {
     abrir () {
       this.$refs.produtoForm.abrir()
-    }
+    },
+    ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto'])
   },
   computed: {
     ...mapState('cadastroProdutos', ['produtosCadastrados'])

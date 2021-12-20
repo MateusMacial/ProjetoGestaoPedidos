@@ -1,5 +1,5 @@
 <template>
-  <q-dialog ref="dialog" persistent>
+  <q-dialog ref="dialog" persistent @hide="limparCampos()">
         <q-card style="min-width: 1200px">
 
         <q-card-section>
@@ -18,7 +18,7 @@
         <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Cancelar" v-close-popup />
             <q-btn flat label="Adicionar Produto"
-            @click="addProduto({codProduto, nomeProduto})"
+            @click="adicionarProduto({codProduto, nomeProduto})"
             v-close-popup/>
         </q-card-actions>
 
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -37,9 +37,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('cadastroProdutos', ['addProduto']),
+    ...mapActions('cadastroProdutos', ['adicionarProduto']),
     abrir () {
       this.$refs.dialog.show()
+    },
+    limparCampos () {
+      this.codProduto = ''
+      this.nomeProduto = ''
     }
   }
 }
