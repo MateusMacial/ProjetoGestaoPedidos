@@ -34,6 +34,9 @@
             <template>
                 <div class="q-pa-md q-gutter-sm">
                     <q-btn flat label="Adicionar Produto" color="primary" @click="abrirProdutoDoPedido()" />
+
+                    <q-btn flat label="Remover Produto" color="primary" @click="removerProdutoDoPedido(selected)" v-show="selected.length" />
+
                     <produtoDoPedido ref="produtoDoPedido" @adicionarProdutoEmPedido="adicionarProdutoEmPedido"></produtoDoPedido>
                 </div>
             </template>
@@ -97,6 +100,17 @@ export default {
     },
     limpar () {
       this.produtosDoPedido = []
+    },
+    removerProdutoDoPedido (produtosParaRemover) {
+      produtosParaRemover.forEach(item => {
+        const indexRemover = this.produtosDoPedido.findIndex(el => {
+          return el.uid === item.uid
+        })
+        if (indexRemover !== -1) {
+          this.produtosDoPedido.splice(indexRemover, 1)
+        }
+      })
+      this.selected = []
     },
     ...mapActions('cadastroPedidos', ['adicionarPedido'])
   }
