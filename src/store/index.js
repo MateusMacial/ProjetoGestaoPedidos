@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import cadastroProdutos from './cadastro-produtos'
+import cadastroPedidos from './cadastro-pedidos'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      cadastroProdutos
+      cadastroProdutos,
+      cadastroPedidos
     },
 
     // enable strict mode (adds overhead!)

@@ -38,8 +38,9 @@
       <template>
         <div class="q-pa-md q-gutter-sm">
           <q-btn round icon="add" color="primary"
-          @click="abrir({})"
-          v-show="selected.length === 0"/>
+          v-show="selected.length === 0"
+          @click="abrir({})"/>
+
           <produtoForm ref="produtoForm"></produtoForm>
         </div>
       </template>
