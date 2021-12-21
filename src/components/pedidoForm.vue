@@ -8,23 +8,23 @@
 
         <div class="row">
           <div class="col-3 q-pa-md">
-              <q-input outlined v-model="objToEdit" autofocus label="Código do Pedido"/>
+              <q-input outlined v-model="objToEdit.codPedido" autofocus label="Código do Pedido"/>
           </div>
           <div class="col-3 q-pa-md">
-              <q-input outlined v-model="objToEdit" autofocus label="Nome do Cliente"/>
+              <q-input outlined v-model="objToEdit.nomeCliente" autofocus label="Nome do Cliente"/>
           </div>
           <div class="col-3 q-pa-md">
-              <q-input outlined v-model="objToEdit" autofocus label="Data de Entrega"/>
+              <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/>
           </div>
           <div class="col-3 q-pa-md">
-              <q-input outlined v-model="objToEdit" autofocus label="Observação"/>
+              <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
           </div>
         </div>
 
         <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Cancelar" v-close-popup />
 
-            <q-btn v-show="!editar" flat label="Adicionar Pedido" v-close-popup/>
+            <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="adicionarPedido(objToEdit)" v-close-popup/>
 
             <q-btn v-show="editar" flat label="Editar Pedido" v-close-popup/>
         </q-card-actions>
@@ -34,6 +34,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import cloneDeep from 'lodash/cloneDeep'
+
 export default {
   data () {
     return {
@@ -42,9 +45,12 @@ export default {
     }
   },
   methods: {
-    abrir () {
+    abrir (obj, editavel) {
+      this.objToEdit = cloneDeep(obj)
+      this.editar = editavel || false
       this.$refs.dialog.show()
-    }
+    },
+    ...mapActions('cadastroPedidos', ['adicionarPedido'])
   }
 }
 </script>

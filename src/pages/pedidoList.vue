@@ -38,7 +38,7 @@
         <div class="q-pa-md q-gutter-sm">
           <q-btn round icon="add" color="primary"
           v-show="selected.length === 0"
-          @click="abrir()" />
+          @click="abrir({})" />
 
           <pedidoForm ref="pedidoForm"></pedidoForm>
         </div>
@@ -69,10 +69,10 @@ export default {
         sortable: true
       },
       {
-        name: 'cliente',
+        name: 'nomeCliente',
         required: true,
         label: 'Cliente',
-        field: 'cliente',
+        field: 'nomeCliente',
         align: 'left',
         sortable: true
       },
@@ -94,13 +94,13 @@ export default {
       }]
     }
   },
+  methods: {
+    abrir (obj, editavel) {
+      this.$refs.pedidoForm.abrir(obj, editavel)
+    }
+  },
   computed: {
     ...mapState('cadastroPedidos', ['pedidosCadastrados'])
-  },
-  methods: {
-    abrir () {
-      this.$refs.pedidoForm.abrir()
-    }
   }
 }
 </script>
