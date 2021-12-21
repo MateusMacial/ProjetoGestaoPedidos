@@ -37,7 +37,8 @@
       <template>
         <div class="q-pa-md q-gutter-sm">
           <q-btn round icon="add" color="primary"
-          v-show="selected.length === 0"/>
+          v-show="selected.length === 0"
+          @click="abrir()" />
 
           <pedidoForm ref="pedidoForm"></pedidoForm>
         </div>
@@ -48,11 +49,12 @@
 </template>
 
 <script>
-// import pedidoForm from '../components/pedidoForm.vue'
+import pedidoForm from '../components/pedidoForm.vue'
 import { mapState } from 'vuex'
 
 export default {
   name: 'pedidoList',
+  components: { pedidoForm },
   data () {
     return {
       prompt: false,
@@ -94,6 +96,11 @@ export default {
   },
   computed: {
     ...mapState('cadastroPedidos', ['pedidosCadastrados'])
+  },
+  methods: {
+    abrir () {
+      this.$refs.pedidoForm.abrir()
+    }
   }
 }
 </script>
