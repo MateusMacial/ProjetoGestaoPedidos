@@ -42,9 +42,6 @@
           v-show="selected.length === 0"/>
           <produtoForm ref="produtoForm"></produtoForm>
         </div>
-        <div>
-          <q-btn round icon="ok" color="primary" @click="select()"/>
-        </div>
       </template>
 
     </div>
@@ -84,9 +81,6 @@ export default {
   methods: {
     abrir (obj, editavel) {
       this.$refs.produtoForm.abrir(obj, editavel)
-    },
-    select () {
-      console.log(this.selected)
     },
     onDeletarProduto () {
       this.deletarProduto(this.selected)

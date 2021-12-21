@@ -36,6 +36,11 @@
             <q-item-label>Produtos</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item to="/pedidoList">
+          <q-item-section>
+            <q-item-label>Pedidos</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
