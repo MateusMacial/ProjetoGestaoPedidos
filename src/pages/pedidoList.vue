@@ -19,12 +19,14 @@
 
         <q-btn color="primary"
         label="Editar"
-        v-show="selected.length === 1"/>
+        v-show="selected.length === 1"
+        @click="abrir(selected[0], true)"/>
 
         <q-btn class="q-ml-sm"
         color="primary"
         label="Deletar"
-        v-show="selected.length"/>
+        v-show="selected.length"
+        @click="onDeletarPedido()"/>
 
         <q-space />
 
@@ -54,7 +56,7 @@
 
 <script>
 import pedidoForm from '../components/pedidoForm.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'pedidoList',
@@ -101,7 +103,12 @@ export default {
   methods: {
     abrir (obj, editavel) {
       this.$refs.pedidoForm.abrir(obj, editavel)
-    }
+    },
+    onDeletarPedido () {
+      this.deletarPedido(this.selected)
+      this.selected = []
+    },
+    ...mapActions('cadastroPedidos', ['editarPedidos', 'deletarPedido'])
   },
   computed: {
     ...mapState('cadastroPedidos', ['pedidosCadastrados'])

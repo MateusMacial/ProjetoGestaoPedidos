@@ -23,7 +23,7 @@
 
             <q-table
             title="Pedidos"
-            :data="produtosDoPedido"
+            :data="novoOuEdicao()"
             :columns="columns"
             row-key="uid"
             selection="multiple"
@@ -46,7 +46,7 @@
 
                 <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="adicionarPedido({...objToEdit, produtosDoPedido})" v-close-popup/>
 
-                <q-btn v-show="editar" flat label="Editar Pedido" v-close-popup/>
+                <q-btn v-show="editar" flat label="Editar Pedido" @click="editarPedido({...objToEdit, produtosDoPedido})"  v-close-popup/>
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -92,6 +92,13 @@ export default {
       this.editar = editavel || false
       this.$refs.dialog.show()
     },
+    novoOuEdicao () {
+      if (this.editar) {
+        return this.objToEdit.produtosDoPedido
+      } else {
+        return this.produtosDoPedido
+      }
+    },
     abrirProdutoDoPedido () {
       this.$refs.produtoDoPedido.abrir()
     },
@@ -112,7 +119,7 @@ export default {
       })
       this.selected = []
     },
-    ...mapActions('cadastroPedidos', ['adicionarPedido'])
+    ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido'])
   }
 }
 </script>
