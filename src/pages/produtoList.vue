@@ -14,13 +14,14 @@
       <template v-slot:top>
         <q-btn color="primary"
         label="Editar"
-        v-show="selected.length === 1" @click="abrir(selected[0], true)"/>
+        v-show="selected.length === 1"
+        @click="abrir(selected[0], true)"/>
 
         <q-btn class="q-ml-sm"
         color="primary"
         label="Deletar"
         v-show="selected.length"
-        @click="deletarProduto(selected)"/>
+        @click="onDeletarProduto()"/>
 
         <q-space />
 
@@ -40,6 +41,9 @@
           @click="abrir({})"
           v-show="selected.length === 0"/>
           <produtoForm ref="produtoForm"></produtoForm>
+        </div>
+        <div>
+          <q-btn round icon="ok" color="primary" @click="select()"/>
         </div>
       </template>
 
@@ -80,6 +84,13 @@ export default {
   methods: {
     abrir (obj, editavel) {
       this.$refs.produtoForm.abrir(obj, editavel)
+    },
+    select () {
+      console.log(this.selected)
+    },
+    onDeletarProduto () {
+      this.deletarProduto(this.selected)
+      this.selected = []
     },
     ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto'])
   },
