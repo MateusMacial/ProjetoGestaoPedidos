@@ -1,6 +1,10 @@
 <template>
   <q-page padding>
     <div class="q-pa-md">
+      <q-card-section>
+        <div class="text-h6">Produtos</div>
+      </q-card-section>
+
       <q-table
         title="Produtos"
         :data="produtosCadastrados"
