@@ -86,11 +86,12 @@ export default {
   methods: {
     abrir (obj, editavel) {
       this.$refs.produtoForm.abrir(obj, editavel)
+      this.selected = []
     },
     onDeletarProduto () {
       this.$q.dialog({
         title: 'Confirm',
-        message: 'Deseja realmente excluir o produto?',
+        message: 'Deseja realmente excluir?',
         cancel: true,
         persistent: true
       }).onOk(() => {

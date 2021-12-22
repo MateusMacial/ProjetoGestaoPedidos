@@ -103,10 +103,18 @@ export default {
   methods: {
     abrir (obj, editavel) {
       this.$refs.pedidoForm.abrir(obj, editavel)
+      this.selected = []
     },
     onDeletarPedido () {
-      this.deletarPedido(this.selected)
-      this.selected = []
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Deseja realmente excluir?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.deletarPedido(this.selected)
+        this.selected = []
+      })
     },
     ...mapActions('cadastroPedidos', ['editarPedidos', 'deletarPedido'])
   },

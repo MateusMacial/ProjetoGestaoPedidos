@@ -44,9 +44,9 @@
             <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Cancelar" v-close-popup />
 
-                <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="adicionarPedido(objToEdit)" v-close-popup/>
+                <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="pedidoValidator"/>
 
-                <q-btn v-show="editar" flat label="Editar Pedido" @click="editarPedido({...objToEdit})"  v-close-popup/>
+                <q-btn v-show="editar" flat label="Editar Pedido" @click="pedidoValidator"/>
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -114,6 +114,31 @@ export default {
         }
       })
       this.selected = []
+    },
+    pedidoValidator () {
+      if (!this.objToEdit.codPedido) {
+        this.$q.notify('O código do pedido é obrigatório')
+      }
+      if (!this.objToEdit.nomeCliente) {
+        this.$q.notify('O nome do cliente é obrigatório')
+      }
+      if (!this.objToEdit.dataEntrega) {
+        this.$q.notify('A data de entrega é obrigatória')
+      }
+      if (!this.objToEdit.produtosDoPedido.length) {
+        this.$q.notify('Deve haver pelo menos um produto no pedido.')
+      }
+      if (this.objToEdit.codPedido && this.objToEdit.nomeCliente && this.objToEdit.dataEntrega && this.objToEdit.produtosDoPedido.length) {
+        if (this.editar) {
+          this.editarPedido({ ...this.objToEdit })
+        } else {
+          this.adicionarPedido(this.objToEdit)
+        }
+        this.$refs.dialog.hide()
+      }
+    },
+    onEditarPedido () {
+      this.editarPedido({ ...this.objToEdit })
     },
     ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido'])
   }
