@@ -17,10 +17,7 @@
 
         <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Cancelar" v-close-popup />
-
-            <q-btn v-show="!editar" flat label="Adicionar Produto" @click="produtoValidator"/>
-
-            <q-btn v-show="editar" flat label="Editar Produto" @click="produtoValidator"/>
+            <q-btn flat icon="save" label="Salvar" @click="produtoValidator"/>
         </q-card-actions>
 
         </q-card>

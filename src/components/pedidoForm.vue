@@ -1,55 +1,60 @@
 <template>
   <q-dialog ref="dialog" persistent @hide="limpar()">
-        <q-card style="min-width: 1200px">
+    <q-card style="min-width: 1200px">
+      <q-card-section>
+          <div class="text-h6">Cadastrar Pedido</div>
+      </q-card-section>
 
-            <q-card-section>
-                <div class="text-h6">Cadastrar Pedido</div>
-            </q-card-section>
+      <div class="row">
+          <div class="col-6 q-pa-md">
+              <q-input outlined v-model="objToEdit.codPedido" autofocus label="Código do Pedido"/>
+          </div>
+          <div class="col-6 q-pa-md">
+              <q-input outlined v-model="objToEdit.nomeCliente" autofocus label="Nome do Cliente"/>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-6 q-pa-md">
+              <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/>
+          </div>
+          <div class="col-6 q-pa-md">
+              <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
+          </div>
+      </div>
 
-            <div class="row">
-                <div class="col-3 q-pa-md">
-                    <q-input outlined v-model="objToEdit.codPedido" autofocus label="Código do Pedido"/>
-                </div>
-                <div class="col-3 q-pa-md">
-                    <q-input outlined v-model="objToEdit.nomeCliente" autofocus label="Nome do Cliente"/>
-                </div>
-                <div class="col-3 q-pa-md">
-                    <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/>
-                </div>
-                <div class="col-3 q-pa-md">
-                    <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
-                </div>
-            </div>
+        <q-table
+        title="Produtos"
+        :data="objToEdit.produtosDoPedido"
+        :columns="columns"
+        row-key="uid"
+        selection="multiple"
+        :selected.sync="selected"
+        :filter="filter">
 
-            <q-table
-            title="Pedidos"
-            :data="objToEdit.produtosDoPedido"
-            :columns="columns"
-            row-key="uid"
-            selection="multiple"
-            :selected.sync="selected"
-            :filter="filter">
-            </q-table>
+          <template v-slot:top>
 
-            <template>
-                <div class="q-pa-md q-gutter-sm">
-                    <q-btn flat label="Adicionar Produto" color="primary" @click="abrirProdutoDoPedido()" />
+            <q-btn flat label="Adicionar Produto" color="primary" @click="abrirProdutoDoPedido()" />
+            <q-btn flat label="Remover Produto" color="primary" @click="removerProdutoDoPedido(selected)"/>
+            <produtoDoPedido ref="produtoDoPedido" @adicionarProdutoEmPedido="adicionarProdutoEmPedido"></produtoDoPedido>
 
-                    <q-btn flat label="Remover Produto" color="primary" @click="removerProdutoDoPedido(selected)" v-show="selected.length" />
+            <q-space />
 
-                    <produtoDoPedido ref="produtoDoPedido" @adicionarProdutoEmPedido="adicionarProdutoEmPedido"></produtoDoPedido>
-                </div>
-            </template>
+            <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
 
-            <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Cancelar" v-close-popup />
+          </template>
 
-                <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="pedidoValidator"/>
+        </q-table>
 
-                <q-btn v-show="editar" flat label="Editar Pedido" @click="pedidoValidator"/>
-            </q-card-actions>
-        </q-card>
-    </q-dialog>
+      <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn flat icon="save" label="Salvar" @click="pedidoValidator"/>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>

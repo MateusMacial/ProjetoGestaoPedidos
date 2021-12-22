@@ -14,7 +14,7 @@
 
             <q-card align="right" class="text-primary">
                 <q-btn flat label="Cancelar" v-close-popup />
-                <q-btn v-show="selected.length" flat label="Adicionar ao Pedido" @click="adicionarProdutoEmPedido()" v-close-popup/>
+                <q-btn flat label="Adicionar ao Pedido" @click="adicionarProdutoEmPedido()" v-close-popup/>
             </q-card>
         </q-card>
   </q-dialog>

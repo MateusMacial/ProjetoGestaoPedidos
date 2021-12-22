@@ -15,35 +15,32 @@
         :filter="filter"
       >
 
-      <template v-slot:top>
+        <template v-slot:top>
 
-        <q-btn color="primary"
-        label="Editar"
-        v-show="selected.length === 1"
-        @click="abrir(selected[0], true)"/>
+          <q-btn color="primary"
+          label="Editar"
+          @click="abrir(selected[0], true)"/>
 
-        <q-btn class="q-ml-sm"
-        color="primary"
-        label="Deletar"
-        v-show="selected.length"
-        @click="onDeletarPedido()"/>
+          <q-btn class="q-ml-sm"
+          color="primary"
+          label="Deletar"
+          @click="onDeletarPedido()"/>
 
-        <q-space />
+          <q-space />
 
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
 
-      </template>
+        </template>
 
       </q-table>
 
       <template>
         <div class="q-pa-md q-gutter-sm">
           <q-btn round icon="add" color="primary"
-          v-show="selected.length === 0"
           @click="abrir({produtosDoPedido: []})"/>
 
           <pedidoForm ref="pedidoForm"></pedidoForm>
