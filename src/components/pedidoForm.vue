@@ -34,7 +34,7 @@
           <template v-slot:top>
 
             <q-btn flat label="Adicionar Produto" color="primary" @click="abrirProdutoDoPedido()" />
-            <q-btn flat label="Remover Produto" color="primary" @click="removerProdutoDoPedido(selected)"/>
+            <q-btn flat label="Remover Produto" color="primary" :disable="!selected.length" @click="removerProdutoDoPedido(selected)"/>
             <produtoDoPedido ref="produtoDoPedido" @adicionarProdutoEmPedido="adicionarProdutoEmPedido"></produtoDoPedido>
 
             <q-space />

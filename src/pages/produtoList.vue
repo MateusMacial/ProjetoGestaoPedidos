@@ -18,11 +18,13 @@
       <template v-slot:top>
         <q-btn color="primary"
         label="Editar"
+        :disable="selected.length !== 1"
         @click="abrir(selected[0], true)"/>
 
         <q-btn class="q-ml-sm"
         color="primary"
         label="Deletar"
+        :disable="!selected.length"
         @click="onDeletarProduto()"/>
 
         <q-space />
@@ -40,6 +42,7 @@
       <template>
         <div class="q-pa-md q-gutter-sm">
           <q-btn round icon="add" color="primary"
+          :disable="selected.length !== 0"
           @click="abrir({})"/>
 
           <produtoForm ref="produtoForm"></produtoForm>
