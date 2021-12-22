@@ -88,8 +88,15 @@ export default {
       this.$refs.produtoForm.abrir(obj, editavel)
     },
     onDeletarProduto () {
-      this.deletarProduto(this.selected)
-      this.selected = []
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Deseja realmente excluir o produto?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.deletarProduto(this.selected)
+        this.selected = []
+      })
     },
     ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto'])
   },

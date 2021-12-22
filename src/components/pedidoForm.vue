@@ -23,7 +23,7 @@
 
             <q-table
             title="Pedidos"
-            :data="novoOuEdicao()"
+            :data="objToEdit.produtosDoPedido"
             :columns="columns"
             row-key="uid"
             selection="multiple"
@@ -44,7 +44,7 @@
             <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Cancelar" v-close-popup />
 
-                <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="adicionarPedido({...objToEdit, produtosDoPedido})" v-close-popup/>
+                <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="adicionarPedido(objToEdit)" v-close-popup/>
 
                 <q-btn v-show="editar" flat label="Editar Pedido" @click="editarPedido({...objToEdit})"  v-close-popup/>
             </q-card-actions>
@@ -92,47 +92,28 @@ export default {
       this.editar = editavel || false
       this.$refs.dialog.show()
     },
-    novoOuEdicao () {
-      if (this.editar) {
-        return this.objToEdit.produtosDoPedido
-      } else {
-        return this.produtosDoPedido
-      }
-    },
     abrirProdutoDoPedido () {
       this.$refs.produtoDoPedido.abrir()
     },
     limpar () {
-      this.produtosDoPedido = []
+      this.objToEdit = { produtosDoPedido: [] }
     },
     adicionarProdutoEmPedido (produtos) {
-      if (this.editar) {
-        this.objToEdit.produtosDoPedido.push(...produtos)
-      } else {
-        this.produtosDoPedido.push(...produtos)
+      if (!this.objToEdit.produtosDoPedido) {
+        this.$set(this.objToEdit, 'produtosDoPedido', [])
       }
+      this.objToEdit.produtosDoPedido.push(...produtos)
     },
     removerProdutoDoPedido (produtosParaRemover) {
-      if (this.editar) {
-        produtosParaRemover.forEach(item => {
-          const indexRemover = this.objToEdit.produtosDoPedido.findIndex(el => {
-            return el.uid === item.uid
-          })
-          if (indexRemover !== -1) {
-            this.objToEdit.produtosDoPedido.splice(indexRemover, 1)
-          }
+      produtosParaRemover.forEach(item => {
+        const indexRemover = this.objToEdit.produtosDoPedido.findIndex(el => {
+          return el.uid === item.uid
         })
-        this.selected = []
-      } else {
-        produtosParaRemover.forEach(item => {
-          const indexRemover = this.produtosDoPedido.findIndex(el => {
-            return el.uid === item.uid
-          })
-          if (indexRemover !== -1) {
-            this.produtosDoPedido.splice(indexRemover, 1)
-          }
-        })
-      }
+        if (indexRemover !== -1) {
+          this.objToEdit.produtosDoPedido.splice(indexRemover, 1)
+        }
+      })
+      this.selected = []
     },
     ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido'])
   }

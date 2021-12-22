@@ -44,7 +44,7 @@
         <div class="q-pa-md q-gutter-sm">
           <q-btn round icon="add" color="primary"
           v-show="selected.length === 0"
-          @click="abrir({})" />
+          @click="abrir({produtosDoPedido: []})"/>
 
           <pedidoForm ref="pedidoForm"></pedidoForm>
         </div>

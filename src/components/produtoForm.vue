@@ -18,7 +18,7 @@
         <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Cancelar" v-close-popup />
 
-            <q-btn v-show="!editar" flat label="Adicionar Produto" @click="adicionarProduto(objToEdit)" v-close-popup/>
+            <q-btn v-show="!editar" flat label="Adicionar Produto" @click="adicionarProdutoValidator"/>
 
             <q-btn v-show="editar" flat label="Editar Produto" @click="editarProduto(objToEdit)" v-close-popup/>
         </q-card-actions>
@@ -48,6 +48,18 @@ export default {
     limparCampos () {
       this.codProduto = ''
       this.nomeProduto = ''
+    },
+    adicionarProdutoValidator () {
+      if (!this.objToEdit.codProduto) {
+        this.$q.notify('O código do produto é obrigatório')
+      }
+      if (!this.objToEdit.nomeProduto) {
+        this.$q.notify('O nome do produto é obrigatório')
+      }
+      if (this.objToEdit.codProduto && this.objToEdit.nomeProduto) {
+        this.adicionarProduto(this.objToEdit)
+        this.$refs.dialog.hide()
+      }
     }
   }
 }
