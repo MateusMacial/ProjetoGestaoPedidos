@@ -46,7 +46,7 @@
 
                 <q-btn v-show="!editar" flat label="Adicionar Pedido" @click="adicionarPedido({...objToEdit, produtosDoPedido})" v-close-popup/>
 
-                <q-btn v-show="editar" flat label="Editar Pedido" @click="editarPedido({...objToEdit, produtosDoPedido})"  v-close-popup/>
+                <q-btn v-show="editar" flat label="Editar Pedido" @click="editarPedido({...objToEdit})"  v-close-popup/>
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -102,28 +102,39 @@ export default {
     abrirProdutoDoPedido () {
       this.$refs.produtoDoPedido.abrir()
     },
-    adicionarProdutoEmPedido (produtos) {
-      this.produtosDoPedido.push(...produtos)
-    },
     limpar () {
       this.produtosDoPedido = []
     },
+    adicionarProdutoEmPedido (produtos) {
+      if (this.editar) {
+        this.objToEdit.produtosDoPedido.push(...produtos)
+      } else {
+        this.produtosDoPedido.push(...produtos)
+      }
+    },
     removerProdutoDoPedido (produtosParaRemover) {
-      produtosParaRemover.forEach(item => {
-        const indexRemover = this.produtosDoPedido.findIndex(el => {
-          return el.uid === item.uid
+      if (this.editar) {
+        produtosParaRemover.forEach(item => {
+          const indexRemover = this.objToEdit.produtosDoPedido.findIndex(el => {
+            return el.uid === item.uid
+          })
+          if (indexRemover !== -1) {
+            this.objToEdit.produtosDoPedido.splice(indexRemover, 1)
+          }
         })
-        if (indexRemover !== -1) {
-          this.produtosDoPedido.splice(indexRemover, 1)
-        }
-      })
-      this.selected = []
+        this.selected = []
+      } else {
+        produtosParaRemover.forEach(item => {
+          const indexRemover = this.produtosDoPedido.findIndex(el => {
+            return el.uid === item.uid
+          })
+          if (indexRemover !== -1) {
+            this.produtosDoPedido.splice(indexRemover, 1)
+          }
+        })
+      }
     },
     ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido'])
   }
 }
 </script>
-
-<style>
-
-</style>

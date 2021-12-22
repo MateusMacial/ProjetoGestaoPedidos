@@ -14,7 +14,7 @@
 
             <q-card align="right" class="text-primary">
                 <q-btn flat label="Cancelar" v-close-popup />
-                <q-btn v-show="selected.length" flat label="Adicionar ao Pedido" @click="$emit('adicionarProdutoEmPedido', selected)" v-close-popup/>
+                <q-btn v-show="selected.length" flat label="Adicionar ao Pedido" @click="adicionarProdutoEmPedido()" v-close-popup/>
             </q-card>
         </q-card>
   </q-dialog>
@@ -57,6 +57,9 @@ export default {
     },
     limpar () {
       this.selected = []
+    },
+    adicionarProdutoEmPedido () {
+      this.$emit('adicionarProdutoEmPedido', this.selected)
     }
   }
 }
