@@ -6,21 +6,23 @@
       </q-card-section>
 
       <div class="row">
-          <div class="col-6 q-pa-md">
-              <q-input outlined v-model="objToEdit.codPedido" autofocus label="Código do Pedido"/>
-          </div>
-          <div class="col-6 q-pa-md">
-              <q-input outlined v-model="objToEdit.nomeCliente" autofocus label="Nome do Cliente"/>
-          </div>
+        <div class="col-6 q-pa-md">
+            <q-input outlined v-model="objToEdit.codPedido" autofocus label="Código do Pedido"/>
+        </div>
+        <div class="col-6 q-pa-md">
+            <q-input outlined v-model="objToEdit.nomeCliente" autofocus label="Nome do Cliente"/>
+        </div>
       </div>
       <div class="row">
-          <div class="col-6 q-pa-md">
-              <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/>
-          </div>
-          <div class="col-6 q-pa-md">
-              <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
-          </div>
+        <div class="col-6 q-pa-md">
+            <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/>
+        </div>
+        <div class="col-6 q-pa-md">
+            <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
+        </div>
       </div>
+
+      <div class="q-pa-md">
 
         <q-table
         title="Produtos"
@@ -31,28 +33,32 @@
         :selected.sync="selected"
         :filter="filter">
 
-          <template v-slot:top>
-
-            <q-btn flat label="Adicionar Produto" color="primary" @click="abrirProdutoDoPedido()" />
+          <template v-slot:top-selection>
             <q-btn flat label="Remover Produto" color="primary" :disable="!selected.length" @click="removerProdutoDoPedido(selected)"/>
-            <produtoDoPedido ref="produtoDoPedido" @adicionarProdutoEmPedido="adicionarProdutoEmPedido"></produtoDoPedido>
+          </template>
 
-            <q-space />
+          <q-space />
 
-            <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <template v-slot:top-right>
+            <div class="q-mr-xl">
+              <q-btn flat label="Adicionar Produto" color="primary" @click="abrirProdutoDoPedido()"/>
+            </div>
+            <q-input outlined dense debounce="300" v-model="filter" placeholder="Pesquisar">
               <template v-slot:append>
                 <q-icon name="search" />
               </template>
             </q-input>
-
           </template>
 
         </q-table>
+      </div>
+      <produtoDoPedido ref="produtoDoPedido" @adicionarProdutoEmPedido="adicionarProdutoEmPedido"></produtoDoPedido>
 
       <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn flat icon="save" label="Salvar" @click="pedidoValidator"/>
+          <q-btn flat icon="save" @click="pedidoValidator"/>
       </q-card-actions>
+
     </q-card>
   </q-dialog>
 </template>

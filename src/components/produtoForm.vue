@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="dialog" persistent @hide="limparCampos()">
-        <q-card style="min-width: 60vw">
+        <q-card style="min-width: 60vw; border-radius: 10px">
 
         <q-card-section>
             <div class="text-h6">Cadastrar Produto</div>

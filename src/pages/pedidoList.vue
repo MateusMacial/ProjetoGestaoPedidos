@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="q-pa-md">
       <q-card-section>
-          <div class="text-h6">Pedidos</div>
+        <div class="text-h6">Pedidos</div>
       </q-card-section>
 
       <q-table
@@ -15,36 +15,41 @@
         :filter="filter"
       >
 
-        <template v-slot:top>
+        <template v-slot:top-selection>
 
           <q-btn color="primary"
-          label="Editar"
+          flat
+          icon="edit"
           :disable="selected.length !== 1"
           @click="abrir(selected[0], true)"/>
 
           <q-btn class="q-ml-sm"
           color="primary"
-          label="Deletar"
+          flat
+          icon="delete"
           :disable="!selected.length"
           @click="onDeletarPedido()"/>
 
-          <q-space />
+        </template>
 
-          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-space />
+
+        <template v-slot:top-right>
+          <q-input outlined dense debounce="300" v-model="filter" placeholder="Pesquisar">
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
-
         </template>
 
       </q-table>
 
       <template>
         <div class="q-pa-md q-gutter-sm">
-          <q-btn round icon="add" color="primary"
-          :disable="selected.length !== 0"
-          @click="abrir({produtosDoPedido: []})"/>
+
+          <q-page-sticky position="bottom-right" :offset="[18, 18]">
+            <q-btn round flat icon="add" color="primary" :disable="selected.length !== 0" @click="abrir({produtosDoPedido: []})"/>
+          </q-page-sticky>
 
           <pedidoForm ref="pedidoForm"></pedidoForm>
         </div>

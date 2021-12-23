@@ -1,22 +1,25 @@
 <template>
   <q-dialog ref="dialog" persistent @hide="limpar()">
-      <q-card style="min-width: 1200px">
-            <q-table
-            title="Produtos Cadastrados"
-            :data="produtosCadastrados"
-            :columns="columns"
-            row-key="uid"
-            selection="multiple"
-            :selected.sync="selected"
-            :filter="filter">
+    <q-card style="min-width: 60vw; border-radius: 10px">
 
-            </q-table>
+      <div class="q-pa-md">
+        <q-table
+        title="Produtos Cadastrados"
+        :data="produtosCadastrados"
+        :columns="columns"
+        row-key="uid"
+        selection="multiple"
+        :selected.sync="selected"
+        :filter="filter">
 
-            <q-card align="right" class="text-primary">
-                <q-btn flat label="Cancelar" v-close-popup />
-                <q-btn flat label="Adicionar ao Pedido" :disable="!selected.length" @click="adicionarProdutoEmPedido"/>
-            </q-card>
-        </q-card>
+        </q-table>
+      </div>
+
+      <q-card align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn flat label="Adicionar ao Pedido" :disable="!selected.length" @click="adicionarProdutoEmPedido"/>
+      </q-card>
+    </q-card>
   </q-dialog>
 </template>
 
