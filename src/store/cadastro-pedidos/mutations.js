@@ -14,7 +14,6 @@ export function editPedido (state, payload) {
       item.produtosDoPedido = payload.pedido.produtosDoPedido
     }
   })
-  console.log(state.pedidosCadastrados)
 }
 
 export function deletPedido (state, payload) {

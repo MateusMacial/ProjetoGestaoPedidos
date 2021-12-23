@@ -14,7 +14,7 @@
 
             <q-card align="right" class="text-primary">
                 <q-btn flat label="Cancelar" v-close-popup />
-                <q-btn flat label="Adicionar ao Pedido" :disable="!selected.length" @click="adicionarProdutoEmPedido()" v-close-popup/>
+                <q-btn flat label="Adicionar ao Pedido" :disable="!selected.length" @click="adicionarProdutoEmPedido"/>
             </q-card>
         </q-card>
   </q-dialog>
@@ -29,6 +29,7 @@ export default {
       prompt: false,
       selected: [],
       filter: '',
+      produtosDoPedido: [],
       columns: [{
         name: 'codProduto',
         required: true,
@@ -52,14 +53,26 @@ export default {
     ...mapState('cadastroProdutos', ['produtosCadastrados'])
   },
   methods: {
-    abrir () {
+    abrir (produtosDoPedido) {
       this.$refs.dialog.show()
+      this.produtosDoPedido = produtosDoPedido
     },
     limpar () {
       this.selected = []
     },
     adicionarProdutoEmPedido () {
-      this.$emit('adicionarProdutoEmPedido', this.selected)
+      let count = 0
+      this.selected.forEach(item => {
+        if (this.produtosDoPedido.find(el => el.uid === item.uid)) {
+          count++
+        }
+      })
+      if (count === 0) {
+        this.$emit('adicionarProdutoEmPedido', this.selected)
+        this.$refs.dialog.hide()
+      } else {
+        this.$q.notify('Não é permitido ter produtos repetidos em um pedido.')
+      }
     }
   }
 }

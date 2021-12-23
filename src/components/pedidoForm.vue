@@ -98,7 +98,7 @@ export default {
       this.$refs.dialog.show()
     },
     abrirProdutoDoPedido () {
-      this.$refs.produtoDoPedido.abrir()
+      this.$refs.produtoDoPedido.abrir(this.objToEdit.produtosDoPedido)
     },
     limpar () {
       this.objToEdit = { produtosDoPedido: [] }
