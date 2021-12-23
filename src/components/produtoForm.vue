@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="dialog" persistent @hide="limparCampos()">
-        <q-card style="min-width: 1200px">
+        <q-card style="min-width: 60vw">
 
         <q-card-section>
             <div class="text-h6">Cadastrar Produto</div>
@@ -17,7 +17,7 @@
 
         <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Cancelar" v-close-popup />
-            <q-btn flat icon="save" label="Salvar" @click="produtoValidator"/>
+            <q-btn flat icon="save" @click="produtoValidator"/>
         </q-card-actions>
 
         </q-card>

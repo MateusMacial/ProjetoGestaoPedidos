@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="dialog" persistent @hide="limpar()">
-    <q-card style="min-width: 1200px">
+    <q-card style="min-width: 60vw; border-radius: 10px">
       <q-card-section>
           <div class="text-h6">Cadastrar Pedido</div>
       </q-card-section>
