@@ -15,7 +15,8 @@
       </div>
       <div class="row">
         <div class="col-6 q-pa-md">
-            <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/>
+            <!-- <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/> -->
+            <q-datetime-picker outlined mode="date" label="Data de Entrega" v-model="objToEdit.dataEntrega" clearable></q-datetime-picker>
         </div>
         <div class="col-6 q-pa-md">
             <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
