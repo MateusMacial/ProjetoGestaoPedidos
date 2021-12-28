@@ -1,12 +1,14 @@
-import { uid } from 'quasar'
+export function loadProdutos (context, payload) {
+  context.produtosCadastrados = payload.produtos
+}
 
 export function addProduto (state, payload) {
-  state.produtosCadastrados.push({ ...payload.produto, uid: uid() })
+  state.produtosCadastrados.push(payload.produto)
 }
 
 export function editProduto (state, payload) {
   state.produtosCadastrados.forEach(item => {
-    if (item.uid === payload.produto.uid) {
+    if (item.id === payload.produto.id) {
       item.codProduto = payload.produto.codProduto
       item.nomeProduto = payload.produto.nomeProduto
     }
@@ -16,7 +18,7 @@ export function editProduto (state, payload) {
 export function deletProduto (state, payload) {
   payload.produtos.forEach(item => {
     const indexRemover = state.produtosCadastrados.findIndex(el => {
-      return el.uid === item.uid
+      return el.id === item.id
     })
     if (indexRemover !== -1) {
       state.produtosCadastrados.splice(indexRemover, 1)

@@ -9,7 +9,7 @@
         title="Produtos"
         :data="produtosCadastrados"
         :columns="columns"
-        row-key="uid"
+        row-key="id"
         selection="multiple"
         :selected.sync="selected"
         :filter="filter"
@@ -69,18 +69,18 @@ export default {
       selected: [],
       filter: '',
       columns: [{
-        name: 'codProduto',
+        name: 'codigoProduto',
         required: true,
         label: 'Código Produto',
-        field: 'codProduto',
+        field: 'codigoProduto',
         align: 'left',
         sortable: true
       },
       {
-        name: 'nomeProduto',
+        name: 'descricaoProduto',
         required: true,
         label: 'Nome Produto',
-        field: 'nomeProduto',
+        field: 'descricaoProduto',
         align: 'left',
         sortable: true
       }
@@ -103,10 +103,13 @@ export default {
         this.selected = []
       })
     },
-    ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto'])
+    ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto', 'carregarProdutos'])
   },
   computed: {
     ...mapState('cadastroProdutos', ['produtosCadastrados'])
+  },
+  mounted () {
+    this.carregarProdutos()
   }
 }
 </script>

@@ -8,10 +8,10 @@
 
         <div class="row">
           <div class="col-6 q-pa-md">
-              <q-input outlined v-model="objToEdit.codProduto" autofocus label="Código do Produto"/>
+              <q-input outlined v-model="objToEdit.codigoProduto" autofocus label="Código do Produto"/>
           </div>
           <div class="col-6 q-pa-md">
-              <q-input outlined v-model="objToEdit.nomeProduto" autofocus label="Nome do Produto"/>
+              <q-input outlined v-model="objToEdit.descricaoProduto" autofocus label="Nome do Produto"/>
           </div>
         </div>
 
@@ -36,24 +36,24 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cadastroProdutos', ['adicionarProduto', 'editarProduto']),
+    ...mapActions('cadastroProdutos', ['adicionarProduto', 'editarProduto', 'carregarProdutos']),
     abrir (obj, editavel) {
       this.objToEdit = cloneDeep(obj)
       this.editar = editavel || false
       this.$refs.dialog.show()
     },
     limparCampos () {
-      this.codProduto = ''
-      this.nomeProduto = ''
+      this.codigoProduto = ''
+      this.descricaoProduto = ''
     },
     produtoValidator () {
-      if (!this.objToEdit.codProduto) {
+      if (!this.objToEdit.codigoProduto) {
         this.$q.notify('O código do produto é obrigatório')
       }
-      if (!this.objToEdit.nomeProduto) {
+      if (!this.objToEdit.descricaoProduto) {
         this.$q.notify('O nome do produto é obrigatório')
       }
-      if (this.objToEdit.codProduto && this.objToEdit.nomeProduto) {
+      if (this.objToEdit.codigoProduto && this.objToEdit.descricaoProduto) {
         if (this.editar) {
           this.editarProduto(this.objToEdit)
         } else {
