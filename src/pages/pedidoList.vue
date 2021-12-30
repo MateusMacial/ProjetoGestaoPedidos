@@ -9,7 +9,7 @@
         title="Pedidos"
         :data="pedidosCadastrados"
         :columns="columns"
-        row-key="codPedido"
+        row-key="id"
         selection="multiple"
         :selected.sync="selected"
         :filter="filter"
@@ -73,18 +73,18 @@ export default {
       selected: [],
       filter: '',
       columns: [{
-        name: 'codPedido',
+        name: 'codigoPedido',
         required: true,
         label: 'Código Pedido',
-        field: 'codPedido',
+        field: 'codigoPedido',
         align: 'left',
         sortable: true
       },
       {
-        name: 'nomeCliente',
+        name: 'cliente',
         required: true,
         label: 'Cliente',
-        field: 'nomeCliente',
+        field: 'cliente',
         align: 'left',
         sortable: true
       },
@@ -104,7 +104,16 @@ export default {
         field: 'observacao',
         align: 'left',
         sortable: true
-      }]
+      },
+      {
+        name: 'id',
+        required: true,
+        label: 'Id',
+        field: 'id',
+        align: 'left',
+        sortable: true
+      }
+      ]
     }
   },
   methods: {
@@ -123,10 +132,13 @@ export default {
         this.selected = []
       })
     },
-    ...mapActions('cadastroPedidos', ['editarPedidos', 'deletarPedido'])
+    ...mapActions('cadastroPedidos', ['editarPedidos', 'deletarPedido', 'carregarPedidos'])
   },
   computed: {
     ...mapState('cadastroPedidos', ['pedidosCadastrados'])
+  },
+  mounted () {
+    this.carregarPedidos()
   }
 }
 </script>

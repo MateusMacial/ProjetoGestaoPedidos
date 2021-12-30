@@ -7,7 +7,7 @@
         title="Produtos Cadastrados"
         :data="produtosCadastrados"
         :columns="columns"
-        row-key="uid"
+        row-key="id"
         selection="multiple"
         :selected.sync="selected"
         :filter="filter">
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -34,18 +34,18 @@ export default {
       filter: '',
       produtosDoPedido: [],
       columns: [{
-        name: 'codProduto',
+        name: 'codigoProduto',
         required: true,
         label: 'Código Produto',
-        field: 'codProduto',
+        field: 'codigoProduto',
         align: 'left',
         sortable: true
       },
       {
-        name: 'nomeProduto',
+        name: 'descricaoProduto',
         required: true,
         label: 'Nome Produto',
-        field: 'nomeProduto',
+        field: 'descricaoProduto',
         align: 'left',
         sortable: true
       }
@@ -54,6 +54,9 @@ export default {
   },
   computed: {
     ...mapState('cadastroProdutos', ['produtosCadastrados'])
+  },
+  mounted () {
+    this.carregarProdutos()
   },
   methods: {
     abrir (produtosDoPedido) {
@@ -66,7 +69,7 @@ export default {
     adicionarProdutoEmPedido () {
       let count = 0
       this.selected.forEach(item => {
-        if (this.produtosDoPedido.find(el => el.uid === item.uid)) {
+        if (this.produtosDoPedido.find(el => el.id === item.id)) {
           count++
         }
       })
@@ -76,7 +79,9 @@ export default {
       } else {
         this.$q.notify('Não é permitido ter produtos repetidos em um pedido.')
       }
-    }
+    },
+    ...mapActions('cadastroPedidos', ['carregarPedidos']),
+    ...mapActions('cadastroProdutos', ['carregarProdutos'])
   }
 }
 </script>

@@ -43,6 +43,7 @@ export default {
       this.$refs.dialog.show()
     },
     limparCampos () {
+      this.carregarProdutos()
       this.codigoProduto = ''
       this.descricaoProduto = ''
     },

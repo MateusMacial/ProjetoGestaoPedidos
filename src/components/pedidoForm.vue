@@ -7,10 +7,10 @@
 
       <div class="row">
         <div class="col-6 q-pa-md">
-            <q-input outlined v-model="objToEdit.codPedido" autofocus label="Código do Pedido"/>
+            <q-input outlined v-model="objToEdit.codigoPedido" autofocus label="Código do Pedido"/>
         </div>
         <div class="col-6 q-pa-md">
-            <q-input outlined v-model="objToEdit.nomeCliente" autofocus label="Nome do Cliente"/>
+            <q-input outlined v-model="objToEdit.cliente" autofocus label="Nome do Cliente"/>
         </div>
       </div>
       <div class="row">
@@ -29,7 +29,7 @@
         title="Produtos"
         :data="objToEdit.produtosDoPedido"
         :columns="columns"
-        row-key="uid"
+        row-key="id"
         selection="multiple"
         :selected.sync="selected"
         :filter="filter">
@@ -66,7 +66,7 @@
 
 <script>
 import produtoDoPedido from '../components/produtoDoPedido.vue'
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 
 export default {
@@ -80,18 +80,18 @@ export default {
       editar: false,
       produtosDoPedido: [],
       columns: [{
-        name: 'codProduto',
+        name: 'codigoProduto',
         required: true,
         label: 'Código Produto',
-        field: 'codProduto',
+        field: 'codigoProduto',
         align: 'left',
         sortable: true
       },
       {
-        name: 'nomeProduto',
+        name: 'descricaoProduto',
         required: true,
         label: 'Nome Produto',
-        field: 'nomeProduto',
+        field: 'descricaoProduto',
         align: 'left',
         sortable: true
       }
@@ -100,14 +100,15 @@ export default {
   },
   methods: {
     abrir (obj, editavel) {
-      this.objToEdit = cloneDeep(obj)
       this.editar = editavel || false
+      this.objToEdit = cloneDeep(obj)
       this.$refs.dialog.show()
     },
     abrirProdutoDoPedido () {
       this.$refs.produtoDoPedido.abrir(this.objToEdit.produtosDoPedido)
     },
     limpar () {
+      this.carregarPedidos()
       this.objToEdit = { produtosDoPedido: [] }
     },
     adicionarProdutoEmPedido (produtos) {
@@ -119,7 +120,7 @@ export default {
     removerProdutoDoPedido (produtosParaRemover) {
       produtosParaRemover.forEach(item => {
         const indexRemover = this.objToEdit.produtosDoPedido.findIndex(el => {
-          return el.uid === item.uid
+          return el.id === item.id
         })
         if (indexRemover !== -1) {
           this.objToEdit.produtosDoPedido.splice(indexRemover, 1)
@@ -128,10 +129,10 @@ export default {
       this.selected = []
     },
     pedidoValidator () {
-      if (!this.objToEdit.codPedido) {
+      if (!this.objToEdit.codigoPedido) {
         this.$q.notify('O código do pedido é obrigatório')
       }
-      if (!this.objToEdit.nomeCliente) {
+      if (!this.objToEdit.cliente) {
         this.$q.notify('O nome do cliente é obrigatório')
       }
       if (!this.objToEdit.dataEntrega) {
@@ -140,19 +141,17 @@ export default {
       if (!this.objToEdit.produtosDoPedido.length) {
         this.$q.notify('Deve haver pelo menos um produto no pedido.')
       }
-      if (this.objToEdit.codPedido && this.objToEdit.nomeCliente && this.objToEdit.dataEntrega && this.objToEdit.produtosDoPedido.length) {
+      if (this.objToEdit.codigoPedido && this.objToEdit.cliente && this.objToEdit.dataEntrega && this.objToEdit.produtosDoPedido.length) {
         if (this.editar) {
-          this.editarPedido({ ...this.objToEdit })
+          this.editarPedido(this.objToEdit)
         } else {
           this.adicionarPedido(this.objToEdit)
         }
         this.$refs.dialog.hide()
       }
     },
-    onEditarPedido () {
-      this.editarPedido({ ...this.objToEdit })
-    },
-    ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido'])
+    ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido', 'carregarPedidos']),
+    ...mapState('cadastroPedidos', ['pedidosCadastrados'])
   }
 }
 </script>

@@ -1,14 +1,17 @@
-import { uid } from 'quasar'
+export function loadPedidos (context, payload) {
+  context.pedidosCadastrados = payload.pedidos
+  console.log(context.pedidosCadastrados)
+}
 
 export function addPedido (state, payload) {
-  state.pedidosCadastrados.push({ ...payload.pedido, uid: uid() })
+  state.pedidosCadastrados.push(payload.pedido)
 }
 
 export function editPedido (state, payload) {
   state.pedidosCadastrados.forEach(item => {
-    if (item.uid === payload.pedido.uid) {
-      item.codPedido = payload.pedido.codPedido
-      item.nomeCliente = payload.pedido.nomeCliente
+    if (item.id === payload.pedido.id) {
+      item.codigoPedido = payload.pedido.codigoPedido
+      item.cliente = payload.pedido.cliente
       item.dataEntrega = payload.pedido.dataEntrega
       item.observacao = payload.pedido.observacao
       item.produtosDoPedido = payload.pedido.produtosDoPedido
@@ -19,7 +22,7 @@ export function editPedido (state, payload) {
 export function deletPedido (state, payload) {
   payload.pedidos.forEach(item => {
     const indexRemover = state.pedidosCadastrados.findIndex(el => {
-      return el.uid === item.uid
+      return el.id === item.id
     })
     if (indexRemover !== -1) {
       state.pedidosCadastrados.splice(indexRemover, 1)
