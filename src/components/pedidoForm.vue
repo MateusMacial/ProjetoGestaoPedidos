@@ -100,8 +100,15 @@ export default {
   },
   methods: {
     abrir (obj, editavel) {
+      if (!editavel) {
+        this.objToEdit = cloneDeep(obj)
+      } else {
+        this.carregarPedido(obj.id).then(() => {
+          console.log('b', this.pedido)
+          this.objToEdit = cloneDeep(this.pedido)
+        })
+      }
       this.editar = editavel || false
-      this.objToEdit = cloneDeep(obj)
       this.$refs.dialog.show()
     },
     abrirProdutoDoPedido () {
@@ -150,8 +157,10 @@ export default {
         this.$refs.dialog.hide()
       }
     },
-    ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido', 'carregarPedidos']),
-    ...mapState('cadastroPedidos', ['pedidosCadastrados'])
+    ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido', 'carregarPedidos', 'carregarPedido'])
+  },
+  computed: {
+    ...mapState('cadastroPedidos', ['pedidosCadastrados', 'pedido'])
   }
 }
 </script>

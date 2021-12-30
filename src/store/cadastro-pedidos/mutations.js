@@ -1,10 +1,14 @@
 export function loadPedidos (context, payload) {
   context.pedidosCadastrados = payload.pedidos
-  console.log(context.pedidosCadastrados)
+}
+
+export function loadPedido (context, payload) {
+  context.pedido = payload.pedido
 }
 
 export function addPedido (state, payload) {
   state.pedidosCadastrados.push(payload.pedido)
+  console.log(payload.pedido)
 }
 
 export function editPedido (state, payload) {
