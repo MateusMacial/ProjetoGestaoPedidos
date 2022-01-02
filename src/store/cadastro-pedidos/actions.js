@@ -10,7 +10,6 @@ export function carregarPedidos (context) {
 export function carregarPedido (context, pedidoId) {
   return api.get('/pedidos/find', { params: { id: pedidoId } }).then(response => {
     const pedido = response.data
-    console.log('a', pedido)
     context.commit('loadPedido', { pedido })
   })
 }

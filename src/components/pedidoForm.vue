@@ -104,7 +104,6 @@ export default {
         this.objToEdit = cloneDeep(obj)
       } else {
         this.carregarPedido(obj.id).then(() => {
-          console.log('b', this.pedido)
           this.objToEdit = cloneDeep(this.pedido)
         })
       }
