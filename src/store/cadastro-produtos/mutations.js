@@ -1,5 +1,13 @@
 export function loadProdutos (context, payload) {
   context.produtosCadastrados = payload.produtos
+
+  context.produtosDisponiveis = []
+
+  payload.produtos.forEach(element => {
+    if (element.pedido === null) {
+      context.produtosDisponiveis.push(element)
+    }
+  })
 }
 
 export function addProduto (state, payload) {
