@@ -33,10 +33,8 @@ export async function editarProduto (context, produto) {
 }
 
 export async function deletarProduto (context, produtos) {
-  produtos.forEach(element => {
-    return axiosInstance.delete('/produtos/delete', { params: { id: element.id } })
-      .then(() => {
-      })
-  })
-  context.commit('deletProduto', { produtos })
+  return axiosInstance.post('/produtos/delete', { idsProdutosParaDeletar: produtos.map(produto => { return produto.id }) })
+    .then(() => {
+      context.commit('deletProduto', { produtos })
+    })
 }

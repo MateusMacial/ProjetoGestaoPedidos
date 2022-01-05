@@ -1,7 +1,7 @@
 import { axiosInstance } from '../../boot/axios'
 
 export async function carregarPedidos (context) {
-  return axiosInstance.get('/pedidos').then(response => {
+  return axiosInstance.get('/pedidos/get-page').then(response => {
     const pedidos = response.data
     context.commit('loadPedidos', { pedidos })
     return response
@@ -33,10 +33,8 @@ export async function editarPedido (context, pedido) {
 }
 
 export async function deletarPedido (context, pedidos) {
-  pedidos.forEach(element => {
-    return axiosInstance.delete('/pedidos/delete', { params: { id: element.id } })
-      .then(() => {
-      })
-  })
-  context.commit('deletPedido', { pedidos })
+  return axiosInstance.post('/pedidos/delete', { idsPedidosParaDeletar: pedidos.map(pedido => { return pedido.id }) })
+    .then(() => {
+      context.commit('deletPedido', { pedidos })
+    })
 }

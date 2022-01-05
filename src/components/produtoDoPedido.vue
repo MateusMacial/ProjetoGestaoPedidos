@@ -5,7 +5,7 @@
       <div class="q-pa-md">
         <q-table
         title="Produtos Cadastrados"
-        :data="produtosDisponiveis"
+        :data="produtosCadastrados"
         :columns="columns"
         row-key="id"
         selection="multiple"
@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('cadastroProdutos', ['produtosCadastrados', 'produtosDisponiveis'])
+    ...mapState('cadastroProdutos', ['produtosCadastrados'])
   },
   mounted () {
     this.carregarProdutos()

@@ -15,8 +15,7 @@
       </div>
       <div class="row">
         <div class="col-6 q-pa-md">
-            <!-- <q-input outlined v-model="objToEdit.dataEntrega" autofocus label="Data de Entrega"/> -->
-            <q-datetime-picker outlined mode="date" label="Data de Entrega" v-model="objToEdit.dataEntrega" clearable></q-datetime-picker>
+            <!-- <q-datetime-picker outlined mode="date" label="Data de Entrega" v-model="objToEdit.dataEntrega" clearable></q-datetime-picker> -->
         </div>
         <div class="col-6 q-pa-md">
             <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
@@ -80,18 +79,18 @@ export default {
       editar: false,
       produtosDoPedido: [],
       columns: [{
-        name: 'codigoProduto',
+        name: 'produtoCodigoProduto',
         required: true,
         label: 'Código Produto',
-        field: 'codigoProduto',
+        field: 'produtoCodigoProduto',
         align: 'left',
         sortable: true
       },
       {
-        name: 'descricaoProduto',
+        name: 'produtoDescricaoProduto',
         required: true,
         label: 'Nome Produto',
-        field: 'descricaoProduto',
+        field: 'produtoDescricaoProduto',
         align: 'left',
         sortable: true
       }
@@ -121,7 +120,9 @@ export default {
       if (!this.objToEdit.produtosDoPedido) {
         this.$set(this.objToEdit, 'produtosDoPedido', [])
       }
-      this.objToEdit.produtosDoPedido.push(...produtos)
+      this.objToEdit.produtosDoPedido.push(...produtos.map((produto) => {
+        return { id: 0, produtoId: produto.id, produtoCodigoProduto: produto.codigoProduto, produtoDescricaoProduto: produto.descricaoProduto }
+      }))
     },
     removerProdutoDoPedido (produtosParaRemover) {
       produtosParaRemover.forEach(item => {
@@ -141,13 +142,13 @@ export default {
       if (!this.objToEdit.cliente) {
         this.$q.notify('O nome do cliente é obrigatório')
       }
-      if (!this.objToEdit.dataEntrega) {
+      /* if (!this.objToEdit.dataEntrega) {
         this.$q.notify('A data de entrega é obrigatória')
-      }
+      } */
       if (!this.objToEdit.produtosDoPedido.length) {
         this.$q.notify('Deve haver pelo menos um produto no pedido.')
       }
-      if (this.objToEdit.codigoPedido && this.objToEdit.cliente && this.objToEdit.dataEntrega && this.objToEdit.produtosDoPedido.length) {
+      if (this.objToEdit.codigoPedido && this.objToEdit.cliente && this.objToEdit.produtosDoPedido.length) {
         if (this.editar) {
           this.editarPedido(this.objToEdit)
         } else {
