@@ -15,7 +15,7 @@
       </div>
       <div class="row">
         <div class="col-6 q-pa-md">
-            <!-- <q-datetime-picker outlined mode="date" label="Data de Entrega" v-model="objToEdit.dataEntrega" clearable></q-datetime-picker> -->
+          <iwt-date-time outlined mode="date" label="Data de Entrega" v-model="objToEdit.dataEntrega" clearable></iwt-date-time>
         </div>
         <div class="col-6 q-pa-md">
             <q-input outlined v-model="objToEdit.observacao" autofocus label="Observação"/>
@@ -142,13 +142,13 @@ export default {
       if (!this.objToEdit.cliente) {
         this.$q.notify('O nome do cliente é obrigatório')
       }
-      /* if (!this.objToEdit.dataEntrega) {
+      if (!this.objToEdit.dataEntrega) {
         this.$q.notify('A data de entrega é obrigatória')
-      } */
+      }
       if (!this.objToEdit.produtosDoPedido.length) {
         this.$q.notify('Deve haver pelo menos um produto no pedido.')
       }
-      if (this.objToEdit.codigoPedido && this.objToEdit.cliente && this.objToEdit.produtosDoPedido.length) {
+      if (this.objToEdit.codigoPedido && this.objToEdit.cliente && this.objToEdit.dataEntrega && this.objToEdit.produtosDoPedido.length) {
         if (this.editar) {
           this.editarPedido(this.objToEdit)
         } else {

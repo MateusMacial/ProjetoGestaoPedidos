@@ -18,6 +18,7 @@ export async function carregarPedido (context, pedidoId) {
 }
 
 export async function adicionarPedido (context, pedido) {
+  console.log('action-pedido', pedido)
   return axiosInstance.post('/pedidos/save', pedido)
     .then((response) => {
       context.commit('addPedido', { pedido: response.data })

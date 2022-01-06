@@ -36,14 +36,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cadastroProdutos', ['adicionarProduto', 'editarProduto', 'carregarProdutos']),
+    ...mapActions('cadastroProdutos', ['adicionarProduto', 'editarProduto', 'getPageProdutos']),
     abrir (obj, editavel) {
       this.objToEdit = cloneDeep(obj)
       this.editar = editavel || false
       this.$refs.dialog.show()
     },
     limparCampos () {
-      this.carregarProdutos()
+      // this.getPageProdutos()
       this.codigoProduto = ''
       this.descricaoProduto = ''
     },

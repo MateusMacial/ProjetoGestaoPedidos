@@ -62,7 +62,7 @@
 <script>
 import pedidoForm from '../components/pedidoForm.vue'
 import { mapState, mapActions } from 'vuex'
-// import { date } from 'quasar'
+import { date } from 'quasar'
 
 export default {
   name: 'pedidoList',
@@ -88,7 +88,7 @@ export default {
         align: 'left',
         sortable: true
       },
-      /* {
+      {
         name: 'dataEntrega',
         required: true,
         label: 'Data Entrega',
@@ -96,7 +96,7 @@ export default {
         align: 'left',
         sortable: true,
         format: (val) => date.formatDate(val, 'DD/MM/YYYY')
-      } */
+      },
       {
         name: 'observacao',
         required: true,

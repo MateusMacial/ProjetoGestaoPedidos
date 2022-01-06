@@ -10,9 +10,12 @@
         :data="produtosCadastrados"
         :columns="columns"
         row-key="id"
+        :pagination.sync="paginationProduto"
+        :filter="paginationProduto.filter.filter"
+        @request="onListProdutos"
+        :loading="loadingProdutos"
         selection="multiple"
         :selected.sync="selected"
-        :filter="filter"
       >
 
       <template v-slot:top-selection>
@@ -33,7 +36,7 @@
       <q-space />
 
       <template v-slot:top-right>
-        <q-input outlined dense debounce="300" v-model="filter" placeholder="Pesquisar">
+        <q-input outlined dense debounce="300" v-model="paginationProduto.filter.filter" placeholder="Pesquisar">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -67,7 +70,7 @@ export default {
     return {
       prompt: false,
       selected: [],
-      filter: '',
+      loadingProdutos: false,
       columns: [{
         name: 'codigoProduto',
         required: true,
@@ -84,7 +87,17 @@ export default {
         align: 'left',
         sortable: true
       }
-      ]
+      ],
+      paginationProduto: {
+        sortBy: '',
+        descending: false,
+        page: 1,
+        rowsPerPage: 15,
+        rowsNumber: 10,
+        filter: {
+          filter: ''
+        }
+      }
     }
   },
   methods: {
@@ -103,13 +116,21 @@ export default {
         this.selected = []
       })
     },
-    ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto', 'carregarProdutos'])
+    onListProdutos (props) {
+      this.loadingProdutos = true
+      this.getPageProdutos(props.pagination).then((rowsNumber) => {
+        this.$updatePagination(this.paginationProduto, { ...props.pagination, rowsNumber })
+      }).finally(() => {
+        this.loadingProdutos = false
+      })
+    },
+    ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto', 'getPageProdutos'])
+  },
+  beforeMount () {
+    this.onListProdutos({ pagination: this.paginationProduto })
   },
   computed: {
     ...mapState('cadastroProdutos', ['produtosCadastrados'])
-  },
-  mounted () {
-    this.carregarProdutos()
   }
 }
 </script>

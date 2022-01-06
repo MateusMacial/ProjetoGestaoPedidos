@@ -2,6 +2,10 @@ export function loadProdutos (state, payload) {
   state.produtosCadastrados = payload.produtos
 }
 
+export function setProdutos (state, list) {
+  state.produtosCadastrados = list
+}
+
 export function addProduto (state, payload) {
   state.produtosCadastrados.push(payload.produto)
 }
