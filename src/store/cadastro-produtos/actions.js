@@ -9,14 +9,14 @@ import { axiosInstance } from '../../boot/axios'
     })
 } */
 
-export async function carregarProdutos (context) {
-  return axiosInstance.post('/produtos/get-page')
+/* export async function carregarProdutos (context) {
+  return axiosInstance.get('/produtos/get-all')
     .then((response) => {
       const produtos = response.data
       context.commit('loadProdutos', { produtos })
       return response
     })
-}
+} */
 
 export async function getPageProdutos (context, pagination) {
   return axiosInstance.post('/produtos/get-page', { page: (pagination.page - 1), rowsPerPage: pagination.rowsPerPage, sortBy: pagination.sortBy, descending: pagination.descending, filter: pagination.filter })

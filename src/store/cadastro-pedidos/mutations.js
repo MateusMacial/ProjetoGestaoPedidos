@@ -1,14 +1,13 @@
-export function loadPedidos (context, payload) {
-  context.pedidosCadastrados = payload.pedidos
+export function setPedidos (state, list) {
+  state.pedidosCadastrados = list
 }
 
-export function loadPedido (context, payload) {
-  context.pedido = payload.pedido
+export function loadPedido (state, payload) {
+  state.pedido = payload.pedido
 }
 
 export function addPedido (state, payload) {
   state.pedidosCadastrados.push(payload.pedido)
-  console.log(payload.pedido)
 }
 
 export function editPedido (state, payload) {

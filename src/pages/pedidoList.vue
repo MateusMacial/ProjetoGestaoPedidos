@@ -10,9 +10,12 @@
         :data="pedidosCadastrados"
         :columns="columns"
         row-key="id"
+        :pagination.sync="paginationPedido"
+        :filter="paginationPedido.filter.filter"
+        @request="onListPedidos"
+        :loading="loadingPedidos"
         selection="multiple"
         :selected.sync="selected"
-        :filter="filter"
       >
 
         <template v-slot:top-selection>
@@ -21,7 +24,7 @@
           flat
           icon="edit"
           :disable="selected.length !== 1"
-          @click="abrir(selected[0], true)"/>
+          @click="onOpenPedidoForm"/>
 
           <q-btn class="q-ml-sm"
           color="primary"
@@ -35,7 +38,7 @@
         <q-space />
 
         <template v-slot:top-right>
-          <q-input outlined dense debounce="300" v-model="filter" placeholder="Pesquisar">
+          <q-input outlined dense debounce="300" v-model="paginationPedido.filter.filter" placeholder="Pesquisar">
             <template v-slot:append>
               <q-icon name="search" />
             </template>
@@ -48,10 +51,10 @@
         <div class="q-pa-md q-gutter-sm">
 
           <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-btn round flat icon="add" color="primary" :disable="selected.length !== 0" @click="abrir({produtosDoPedido: []})"/>
+            <q-btn round flat icon="add" color="primary" :disable="selected.length !== 0" @click="onOpenPedidoForm"/>
           </q-page-sticky>
 
-          <pedidoForm ref="pedidoForm"></pedidoForm>
+          <pedidoForm ref="pedidoForm" @fechar="onListPedidos({ pagination: paginationPedido })"></pedidoForm>
         </div>
       </template>
 
@@ -71,7 +74,7 @@ export default {
     return {
       prompt: false,
       selected: [],
-      filter: '',
+      loadingPedidos: false,
       columns: [{
         name: 'codigoPedido',
         required: true,
@@ -113,13 +116,29 @@ export default {
         align: 'left',
         sortable: true
       }
-      ]
+      ],
+      paginationPedido: {
+        sortBy: '',
+        descending: false,
+        page: 1,
+        rowsPerPage: 15,
+        rowsNumber: 10,
+        filter: {
+          filter: ''
+        }
+      }
     }
   },
   methods: {
-    abrir (obj, editavel) {
-      this.$refs.pedidoForm.abrir(obj, editavel)
-      this.selected = []
+    ...mapActions('cadastroPedidos', ['editarPedidos', 'deletarPedido', 'getPagePedidos']),
+    onOpenPedidoForm () {
+      if (this.selected.length) {
+        this.$refs.pedidoForm.abrir(this.selected[0], true)
+        this.selected = []
+      } else {
+        this.$refs.pedidoForm.abrir({ produtosDoPedido: [] }, false)
+        this.selected = []
+      }
     },
     onDeletarPedido () {
       this.$q.dialog({
@@ -132,13 +151,20 @@ export default {
         this.selected = []
       })
     },
-    ...mapActions('cadastroPedidos', ['editarPedidos', 'deletarPedido', 'carregarPedidos'])
+    onListPedidos (props) {
+      this.loadingPedidos = true
+      this.getPagePedidos(props.pagination).then((rowsNumber) => {
+        this.$updatePagination(this.paginationPedido, { ...props.pagination, rowsNumber })
+      }).finally(() => {
+        this.loadingPedidos = false
+      })
+    }
+  },
+  beforeMount () {
+    this.onListPedidos({ pagination: this.paginationPedido })
   },
   computed: {
     ...mapState('cadastroPedidos', ['pedidosCadastrados'])
-  },
-  mounted () {
-    this.carregarPedidos()
   }
 }
 </script>

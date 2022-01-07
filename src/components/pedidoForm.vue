@@ -28,7 +28,7 @@
         title="Produtos"
         :data="objToEdit.produtosDoPedido"
         :columns="columns"
-        row-key="id"
+        row-key="produtoId"
         selection="multiple"
         :selected.sync="selected"
         :filter="filter">
@@ -113,7 +113,7 @@ export default {
       this.$refs.produtoDoPedido.abrir(this.objToEdit.produtosDoPedido)
     },
     limpar () {
-      this.carregarPedidos()
+      this.$emit('fechar')
       this.objToEdit = { produtosDoPedido: [] }
     },
     adicionarProdutoEmPedido (produtos) {
@@ -127,7 +127,7 @@ export default {
     removerProdutoDoPedido (produtosParaRemover) {
       produtosParaRemover.forEach(item => {
         const indexRemover = this.objToEdit.produtosDoPedido.findIndex(el => {
-          return el.id === item.id
+          return el.produtoId === item.produtoId
         })
         if (indexRemover !== -1) {
           this.objToEdit.produtosDoPedido.splice(indexRemover, 1)
@@ -157,7 +157,7 @@ export default {
         this.$refs.dialog.hide()
       }
     },
-    ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido', 'carregarPedidos', 'carregarPedido'])
+    ...mapActions('cadastroPedidos', ['adicionarPedido', 'editarPedido', 'carregarPedido'])
   },
   computed: {
     ...mapState('cadastroPedidos', ['pedidosCadastrados', 'pedido'])

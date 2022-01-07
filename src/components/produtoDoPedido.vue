@@ -1,5 +1,5 @@
 <template>
-  <q-dialog ref="dialog" persistent @hide="limpar()">
+  <q-dialog ref="dialog" persistent @hide="limpar()" @show="onList">
     <q-card style="min-width: 60vw; border-radius: 10px">
 
       <div class="q-pa-md">
@@ -9,9 +9,11 @@
         :columns="columns"
         row-key="id"
         selection="multiple"
-        :selected.sync="selected"
-        :filter="filter">
-
+        :pagination.sync="paginationProduto"
+        :filter="paginationProduto.filter.filter"
+        @request="onListProdutos"
+        :loading="loadingProdutos"
+        :selected.sync="selected">
         </q-table>
       </div>
 
@@ -31,7 +33,7 @@ export default {
     return {
       prompt: false,
       selected: [],
-      filter: '',
+      loadingProdutos: false,
       produtosDoPedido: [],
       columns: [{
         name: 'codigoProduto',
@@ -49,16 +51,24 @@ export default {
         align: 'left',
         sortable: true
       }
-      ]
+      ],
+      paginationProduto: {
+        sortBy: '',
+        descending: false,
+        page: 1,
+        rowsPerPage: 15,
+        rowsNumber: 10,
+        filter: {
+          filter: ''
+        }
+      }
     }
   },
   computed: {
     ...mapState('cadastroProdutos', ['produtosCadastrados'])
   },
-  mounted () {
-    this.carregarProdutos()
-  },
   methods: {
+    ...mapActions('cadastroProdutos', ['getPageProdutos']),
     abrir (produtosDoPedido) {
       this.$refs.dialog.show()
       this.produtosDoPedido = produtosDoPedido
@@ -80,8 +90,17 @@ export default {
         this.$q.notify('Não é permitido ter produtos repetidos em um pedido.')
       }
     },
-    ...mapActions('cadastroPedidos', ['carregarPedidos']),
-    ...mapActions('cadastroProdutos', ['carregarProdutos'])
+    onList () {
+      this.onListProdutos({ pagination: this.paginationProduto })
+    },
+    onListProdutos (props) {
+      this.loadingProdutos = true
+      this.getPageProdutos(props.pagination).then((rowsNumber) => {
+        this.$updatePagination(this.paginationProduto, { ...props.pagination, rowsNumber })
+      }).finally(() => {
+        this.loadingProdutos = false
+      })
+    }
   }
 }
 </script>

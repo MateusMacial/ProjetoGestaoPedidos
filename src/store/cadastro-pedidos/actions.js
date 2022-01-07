@@ -1,11 +1,11 @@
 import { axiosInstance } from '../../boot/axios'
 
-export async function carregarPedidos (context) {
-  return axiosInstance.get('/pedidos/get-page').then(response => {
-    const pedidos = response.data
-    context.commit('loadPedidos', { pedidos })
-    return response
-  })
+export async function getPagePedidos (context, pagination) {
+  return axiosInstance.post('/pedidos/get-page', { page: (pagination.page - 1), rowsPerPage: pagination.rowsPerPage, sortBy: pagination.sortBy, descending: pagination.descending, filter: pagination.filter })
+    .then(response => {
+      context.commit('setPedidos', response.data.list)
+      return response.data.rowsNumber
+    })
 }
 
 export async function carregarPedido (context, pedidoId) {
@@ -18,11 +18,9 @@ export async function carregarPedido (context, pedidoId) {
 }
 
 export async function adicionarPedido (context, pedido) {
-  console.log('action-pedido', pedido)
   return axiosInstance.post('/pedidos/save', pedido)
     .then((response) => {
       context.commit('addPedido', { pedido: response.data })
-      return response
     })
 }
 

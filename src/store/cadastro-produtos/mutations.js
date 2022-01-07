@@ -1,6 +1,6 @@
-export function loadProdutos (state, payload) {
+/* export function loadProdutos (state, payload) {
   state.produtosCadastrados = payload.produtos
-}
+} */
 
 export function setProdutos (state, list) {
   state.produtosCadastrados = list

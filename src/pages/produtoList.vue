@@ -23,14 +23,14 @@
         flat
         icon="edit"
         :disable="selected.length !== 1"
-        @click="abrir(selected[0], true)"/>
+        @click="onOpenProdutoForm"/>
 
         <q-btn class="q-ml-sm"
         color="primary"
         flat
         icon="delete"
         :disable="!selected.length"
-        @click="onDeletarProduto()"/>
+        @click="onDeletarProduto"/>
       </template>
 
       <q-space />
@@ -49,10 +49,10 @@
         <div class="q-pa-md q-gutter-sm">
 
           <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-btn round flat icon="add" color="primary" :disable="selected.length !== 0" @click="abrir({})"/>
+            <q-btn round flat icon="add" color="primary" :disable="selected.length !== 0" @click="onOpenProdutoForm"/>
           </q-page-sticky>
 
-          <produtoForm ref="produtoForm"></produtoForm>
+          <produtoForm ref="produtoForm" @fechar="onListProdutos({ pagination: paginationProduto })"></produtoForm>
         </div>
       </template>
 
@@ -101,9 +101,15 @@ export default {
     }
   },
   methods: {
-    abrir (obj, editavel) {
-      this.$refs.produtoForm.abrir(obj, editavel)
-      this.selected = []
+    ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto', 'getPageProdutos']),
+    onOpenProdutoForm () {
+      if (this.selected.length) {
+        this.$refs.produtoForm.abrir(this.selected[0], true)
+        this.selected = []
+      } else {
+        this.$refs.produtoForm.abrir({}, false)
+        this.selected = []
+      }
     },
     onDeletarProduto () {
       this.$q.dialog({
@@ -123,8 +129,7 @@ export default {
       }).finally(() => {
         this.loadingProdutos = false
       })
-    },
-    ...mapActions('cadastroProdutos', ['editarProduto', 'deletarProduto', 'getPageProdutos'])
+    }
   },
   beforeMount () {
     this.onListProdutos({ pagination: this.paginationProduto })
