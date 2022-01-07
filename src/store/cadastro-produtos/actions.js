@@ -28,8 +28,9 @@ export async function getPageProdutos (context, pagination) {
 
 export async function adicionarProduto (context, produto) {
   return axiosInstance.post('/produtos/save', produto)
-    .then(() => {
+    .then((response) => {
       context.commit('addProduto', { produto })
+      return response.data
     })
 }
 
@@ -42,7 +43,8 @@ export async function editarProduto (context, produto) {
 
 export async function deletarProduto (context, produtos) {
   return axiosInstance.post('/produtos/delete', { idsProdutosParaDeletar: produtos.map(produto => { return produto.id }) })
-    .then(() => {
+    .then((response) => {
       context.commit('deletProduto', { produtos })
+      return response.data
     })
 }

@@ -119,13 +119,30 @@ export default {
         persistent: true
       }).onOk(() => {
         this.deletarProduto(this.selected)
-        this.selected = []
+          .then(() => {
+            this.$q.notify({
+              message: 'Produto excluido.',
+              color: 'green'
+            })
+            this.selected = []
+          })
+          .catch(() => {
+            this.$q.notify({
+              message: 'Falha em excluir produto.',
+              color: 'red'
+            })
+          })
       })
     },
     onListProdutos (props) {
       this.loadingProdutos = true
       this.getPageProdutos(props.pagination).then((rowsNumber) => {
         this.$updatePagination(this.paginationProduto, { ...props.pagination, rowsNumber })
+      }).catch(() => {
+        this.$q.notify({
+          message: 'Falha em carregar produtos.',
+          color: 'red'
+        })
       }).finally(() => {
         this.loadingProdutos = false
       })

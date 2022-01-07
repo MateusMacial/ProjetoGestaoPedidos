@@ -57,10 +57,35 @@ export default {
       if (this.objToEdit.codigoProduto && this.objToEdit.descricaoProduto) {
         if (this.editar) {
           this.editarProduto(this.objToEdit)
+            .then(() => {
+              this.$q.notify({
+                message: 'Produto salvo.',
+                color: 'green'
+              })
+              this.$refs.dialog.hide()
+            })
+            .catch(() => {
+              this.$q.notify({
+                message: 'Falha em salvar produto.',
+                color: 'red'
+              })
+            })
         } else {
           this.adicionarProduto(this.objToEdit)
+            .then(() => {
+              this.$q.notify({
+                message: 'Produto salvo.',
+                color: 'green'
+              })
+              this.$refs.dialog.hide()
+            })
+            .catch(() => {
+              this.$q.notify({
+                message: 'Falha em salvar produto.',
+                color: 'red'
+              })
+            })
         }
-        this.$refs.dialog.hide()
       }
     }
   }
