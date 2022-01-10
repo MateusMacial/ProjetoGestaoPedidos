@@ -125,13 +125,14 @@ export default {
         this.$q.loading.show({
           message: 'Excluindo produto.'
         })
-        this.deletarProduto(this.selected)
+        this.deletarProduto({ ids: this.selected.map(produto => { return produto.id }) })
           .then(() => {
             this.$q.notify({
               message: 'Produto excluido.',
               color: 'green'
             })
             this.selected = []
+            this.onListProdutos({ pagination: this.paginationProduto })
           })
           .catch(() => {
             this.$q.notify({

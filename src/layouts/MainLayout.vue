@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr fFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -8,7 +8,8 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="$refs.iwtDrawerRefs.abrirFechar()"
+          v-if="$q.platform.is.mobile"
         />
 
         <q-toolbar-title>
@@ -19,30 +20,11 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item to="/">
-          <q-item-section>
-            <q-item-label>Home</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item to="/produtoList">
-          <q-item-section>
-            <q-item-label>Produtos</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item to="/pedidoList">
-          <q-item-section>
-            <q-item-label>Pedidos</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer>
+    <iwt-drawer
+      ref="iwtDrawerRefs"
+      :categorias="categorias"
+      :acessos="[]"
+    />
 
     <q-page-container>
       <router-view />
@@ -57,7 +39,19 @@ export default {
   components: {},
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      categorias: [
+        {
+          nome: 'Paginas',
+          entradas: [
+            { to: '/', icon: 'mdi-account', label: 'Home' },
+            { to: '/produtoList', icon: 'mdi-account', label: 'Produtos' },
+            { to: '/pedidoList', icon: 'mdi-account', label: 'Pedidos' },
+            { to: '/produtoListIWT', icon: 'mdi-account', label: 'Produtos(IWT)' },
+            { to: '/pedidoListIWT', icon: 'mdi-account', label: 'Pedidos(IWT)' }
+          ]
+        }
+      ]
     }
   }
 }

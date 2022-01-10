@@ -18,6 +18,10 @@ import { axiosInstance } from '../../boot/axios'
     })
 } */
 
+export function setProdutos (context, obj) {
+  context.commit('setProdutos', obj)
+}
+
 export async function getPageProdutos (context, pagination) {
   return axiosInstance.post('/produtos/get-page', { page: (pagination.page - 1), rowsPerPage: pagination.rowsPerPage, sortBy: pagination.sortBy, descending: pagination.descending, filter: pagination.filter })
     .then((response) => {
@@ -29,7 +33,7 @@ export async function getPageProdutos (context, pagination) {
 export async function adicionarProduto (context, produto) {
   return axiosInstance.post('/produtos/save', produto)
     .then((response) => {
-      context.commit('addProduto', { produto })
+      // context.commit('addProduto', { produto })
       return response.data
     })
 }
@@ -41,10 +45,10 @@ export async function editarProduto (context, produto) {
     })
 }
 
-export async function deletarProduto (context, produtos) {
-  return axiosInstance.post('/produtos/delete', { idsProdutosParaDeletar: produtos.map(produto => { return produto.id }) })
+export async function deletarProduto (context, obj) {
+  return axiosInstance.post('/produtos/delete', { idsProdutosParaDeletar: obj.ids })
     .then((response) => {
-      context.commit('deletProduto', { produtos })
+      // context.commit('deletProduto', { obj })
       return response.data
     })
 }

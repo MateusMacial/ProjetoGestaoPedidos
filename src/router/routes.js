@@ -6,7 +6,9 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'produtoList', component: () => import('pages/produtoList.vue') },
-      { path: 'pedidoList', component: () => import('pages/pedidoList.vue') }
+      { path: 'pedidoList', component: () => import('pages/pedidoList.vue') },
+      { path: 'produtoListIWT', component: () => import('pages/produtoListIWT.vue') },
+      { path: 'pedidoListIWT', component: () => import('pages/pedidoListIWT.vue') }
     ]
   },
 
