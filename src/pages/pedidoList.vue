@@ -18,6 +18,10 @@
         :selected.sync="selected"
       >
 
+        <template v-slot:loading>
+          <q-inner-loading showing color="primary" />
+        </template>
+
         <template v-slot:top-selection>
 
           <q-btn color="primary"
@@ -147,14 +151,37 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
+        this.$q.loading.show({
+          message: 'Excluindo pedido.'
+        })
         this.deletarPedido(this.selected)
-        this.selected = []
+          .then(() => {
+            this.$q.notify({
+              message: 'Pedido excluido.',
+              color: 'green'
+            })
+            this.selected = []
+          })
+          .catch(() => {
+            this.$q.notify({
+              message: 'Falha em excluir pedido.',
+              color: 'red'
+            })
+          })
+          .finally(() => {
+            this.$q.loading.hide()
+          })
       })
     },
     onListPedidos (props) {
       this.loadingPedidos = true
       this.getPagePedidos(props.pagination).then((rowsNumber) => {
         this.$updatePagination(this.paginationPedido, { ...props.pagination, rowsNumber })
+      }).catch(() => {
+        this.$q.notify({
+          message: 'Falha em carregar pedidos.',
+          color: 'red'
+        })
       }).finally(() => {
         this.loadingPedidos = false
       })

@@ -56,6 +56,9 @@ export default {
       }
       if (this.objToEdit.codigoProduto && this.objToEdit.descricaoProduto) {
         if (this.editar) {
+          this.$q.loading.show({
+            message: 'Salvando produto.'
+          })
           this.editarProduto(this.objToEdit)
             .then(() => {
               this.$q.notify({
@@ -70,7 +73,13 @@ export default {
                 color: 'red'
               })
             })
+            .finally(() => {
+              this.$q.loading.hide()
+            })
         } else {
+          this.$q.loading.show({
+            message: 'Salvando produto.'
+          })
           this.adicionarProduto(this.objToEdit)
             .then(() => {
               this.$q.notify({
@@ -84,6 +93,9 @@ export default {
                 message: 'Falha em salvar produto.',
                 color: 'red'
               })
+            })
+            .finally(() => {
+              this.$q.loading.hide()
             })
         }
       }

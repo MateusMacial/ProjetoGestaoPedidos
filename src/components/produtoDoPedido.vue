@@ -14,6 +14,10 @@
         @request="onListProdutos"
         :loading="loadingProdutos"
         :selected.sync="selected">
+
+          <template v-slot:loading>
+            <q-inner-loading showing color="primary" />
+          </template>
         </q-table>
       </div>
 
@@ -97,6 +101,11 @@ export default {
       this.loadingProdutos = true
       this.getPageProdutos(props.pagination).then((rowsNumber) => {
         this.$updatePagination(this.paginationProduto, { ...props.pagination, rowsNumber })
+      }).catch(() => {
+        this.$q.notify({
+          message: 'Falha em carregar produtos.',
+          color: 'red'
+        })
       }).finally(() => {
         this.loadingProdutos = false
       })

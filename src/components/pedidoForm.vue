@@ -150,9 +150,47 @@ export default {
       }
       if (this.objToEdit.codigoPedido && this.objToEdit.cliente && this.objToEdit.dataEntrega && this.objToEdit.produtosDoPedido.length) {
         if (this.editar) {
+          this.$q.loading.show({
+            message: 'Salvando pedido.'
+          })
           this.editarPedido(this.objToEdit)
+            .then(() => {
+              this.$q.notify({
+                message: 'Pedido salvo.',
+                color: 'green'
+              })
+              this.$refs.dialog.hide()
+            })
+            .catch(() => {
+              this.$q.notify({
+                message: 'Falha em salvar pedido.',
+                color: 'red'
+              })
+            })
+            .finally(() => {
+              this.$q.loading.hide()
+            })
         } else {
+          this.$q.loading.show({
+            message: 'Salvando pedido.'
+          })
           this.adicionarPedido(this.objToEdit)
+            .then(() => {
+              this.$q.notify({
+                message: 'Pedido salvo.',
+                color: 'green'
+              })
+              this.$refs.dialog.hide()
+            })
+            .catch(() => {
+              this.$q.notify({
+                message: 'Falha em salvar pedido.',
+                color: 'red'
+              })
+            })
+            .finally(() => {
+              this.$q.loading.hide()
+            })
         }
         this.$refs.dialog.hide()
       }

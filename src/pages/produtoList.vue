@@ -18,6 +18,10 @@
         :selected.sync="selected"
       >
 
+      <template v-slot:loading>
+        <q-inner-loading showing color="primary" />
+      </template>
+
       <template v-slot:top-selection>
         <q-btn color="primary"
         flat
@@ -118,6 +122,9 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
+        this.$q.loading.show({
+          message: 'Excluindo produto.'
+        })
         this.deletarProduto(this.selected)
           .then(() => {
             this.$q.notify({
@@ -131,6 +138,9 @@ export default {
               message: 'Falha em excluir produto.',
               color: 'red'
             })
+          })
+          .finally(() => {
+            this.$q.loading.hide()
           })
       })
     },
