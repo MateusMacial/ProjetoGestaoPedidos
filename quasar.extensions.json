@@ -3,5 +3,7 @@
   "iwt-date-time": {},
   "qdecimal": {},
   "list-form": {},
-  "iwt-drawer": {}
+  "iwt-drawer": {},
+  "iwt-master-detail": {},
+  "iwt-selector": {}
 }

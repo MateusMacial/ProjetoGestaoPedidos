@@ -111,14 +111,6 @@ export default {
         field: 'observacao',
         align: 'left',
         sortable: true
-      },
-      {
-        name: 'id',
-        required: true,
-        label: 'Id',
-        field: 'id',
-        align: 'left',
-        sortable: true
       }
       ],
       paginationPedido: {
@@ -154,13 +146,14 @@ export default {
         this.$q.loading.show({
           message: 'Excluindo pedido.'
         })
-        this.deletarPedido(this.selected)
+        this.deletarPedido({ ids: this.selected.map(pedido => { return pedido.id }) })
           .then(() => {
             this.$q.notify({
               message: 'Pedido excluido.',
               color: 'green'
             })
             this.selected = []
+            this.onListPedidos({ pagination: this.paginationPedido })
           })
           .catch(() => {
             this.$q.notify({

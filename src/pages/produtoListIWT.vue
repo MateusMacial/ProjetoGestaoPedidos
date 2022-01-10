@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'PedidoList',
+  name: 'ProdutoListIWT',
   data () {
     return {
       storeConfig: {

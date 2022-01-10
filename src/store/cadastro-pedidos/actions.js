@@ -1,5 +1,9 @@
 import { axiosInstance } from '../../boot/axios'
 
+export function setPedidos (context, obj) {
+  context.commit('setPedidos', obj)
+}
+
 export async function getPagePedidos (context, pagination) {
   return axiosInstance.post('/pedidos/get-page', { page: (pagination.page - 1), rowsPerPage: pagination.rowsPerPage, sortBy: pagination.sortBy, descending: pagination.descending, filter: pagination.filter })
     .then(response => {
@@ -20,7 +24,8 @@ export async function carregarPedido (context, pedidoId) {
 export async function adicionarPedido (context, pedido) {
   return axiosInstance.post('/pedidos/save', pedido)
     .then((response) => {
-      context.commit('addPedido', { pedido: response.data })
+      // context.commit('addPedido', { pedido: response.data })
+      return response.data
     })
 }
 
@@ -31,9 +36,10 @@ export async function editarPedido (context, pedido) {
     })
 }
 
-export async function deletarPedido (context, pedidos) {
-  return axiosInstance.post('/pedidos/delete', { idsPedidosParaDeletar: pedidos.map(pedido => { return pedido.id }) })
-    .then(() => {
-      context.commit('deletPedido', { pedidos })
+export async function deletarPedido (context, obj) {
+  return axiosInstance.post('/pedidos/delete', { idsPedidosParaDeletar: obj.ids })
+    .then((response) => {
+      // context.commit('deletPedido', { obj })
+      return response.data
     })
 }
