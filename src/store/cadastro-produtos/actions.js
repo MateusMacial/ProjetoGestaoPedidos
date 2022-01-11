@@ -16,7 +16,7 @@ export async function getPageProdutosSelector (context, pagination) {
   return axiosInstance.post('/produtos/get-page', { page: (pagination.page - 1), rowsPerPage: pagination.rowsPerPage, sortBy: pagination.sortBy, descending: pagination.descending, filter: pagination.filter })
     .then((response) => {
       context.commit('setProdutos', response.data.list)
-      return response.data.list
+      return response.data
     })
 }
 

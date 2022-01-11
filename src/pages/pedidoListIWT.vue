@@ -12,14 +12,14 @@
     >
       <template v-slot:campo-produtosDoPedido="props">
         <iwt-master-detail
-          @editar="onEditar"
           titulo="Produtos do Pedido"
+          @add="onAbrirSelector"
+          :btn-editar="false"
+          :columns="columns"
           height="50vh"
           hide-bottom
           selection="multiple"
-          :columns="columns"
           outlined
-          @add="onAbrirSelector"
           v-model="props.objForm.produtosDoPedido"
           ref="iwtMasterDetail"
         />
@@ -147,6 +147,7 @@ export default {
             dense: true,
             label: 'Data de Entrega',
             propriedade: 'dataEntrega',
+            tipoInput: 'date',
             required: true
           },
           {
@@ -158,7 +159,13 @@ export default {
           {
             col: 12,
             useSlot: true,
-            propriedade: 'produtosDoPedido'
+            label: 'Produtos do Pedido',
+            propriedade: 'produtosDoPedido',
+            validacao: (objForm, reject) => {
+              if (!objForm?.produtosDoPedido || objForm?.produtosDoPedido?.length === 0) {
+                reject('Informe ao menos um produto para o pedido.')
+              }
+            }
           }
         ]
       },
@@ -183,14 +190,17 @@ export default {
     }
   },
   methods: {
-    onEditar () {
-
-    },
     onAbrirSelector () {
       this.$refs.iwtSelector.abrir()
     },
-    onAdicionarProdutoEmPedido () {
-
+    onAdicionarProdutoEmPedido (produtos) {
+      if (produtos?.length > 0) {
+        this.$refs.iwtMasterDetail.adicionar(
+          produtos.map((produto) => {
+            return { id: 0, produtoId: produto.id, produtoCodigoProduto: produto.codigoProduto, produtoDescricaoProduto: produto.descricaoProduto }
+          })
+        )
+      }
     }
   }
 }
